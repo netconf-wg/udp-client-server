@@ -5,7 +5,9 @@
 Network Working Group                                      A. Huang Feng
 Internet-Draft                                               P. Francois
 Intended status: Standards Track                               INSA-Lyon
-Expires: 18 April 2024                                   16 October 2023
+Expires: 19 April 2024                                         K. Watsen
+                                                         Watsen Networks
+                                                         17 October 2023
 
 
              YANG Grouping for UDP Clients and UDP Servers
@@ -40,24 +42,25 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 18 April 2024.
+   This Internet-Draft will expire on 19 April 2024.
 
 Copyright Notice
 
    Copyright (c) 2023 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
-   This document is subject to BCP 78 and the IETF Trust's Legal
-   Provisions Relating to IETF Documents (https://trustee.ietf.org/
-   license-info) in effect on the date of publication of this document.
 
 
 
-Huang Feng & Francois     Expires 18 April 2024                 [Page 1]
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 1]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
 
+   This document is subject to BCP 78 and the IETF Trust's Legal
+   Provisions Relating to IETF Documents (https://trustee.ietf.org/
+   license-info) in effect on the date of publication of this document.
    Please review these documents carefully, as they describe your rights
    and restrictions with respect to this document.  Code Components
    extracted from this document must include Revised BSD License text as
@@ -69,19 +72,21 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  The "ietf-udp-client" Module  . . . . . . . . . . . . . . . .   2
      2.1.  The "udp-client-grouping" Grouping  . . . . . . . . . . .   2
-     2.2.  The "udp-dtls-client-grouping" Grouping . . . . . . . . .   2
+     2.2.  The "udp-dtls-client-grouping" Grouping . . . . . . . . .   3
      2.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   4
-   3.  The "ietf-udp-server" Module  . . . . . . . . . . . . . . . .   6
-     3.1.  The "udp-server-grouping" Grouping  . . . . . . . . . . .   6
+   3.  The "ietf-udp-server" Module  . . . . . . . . . . . . . . . .   7
+     3.1.  The "udp-server-grouping" Grouping  . . . . . . . . . . .   7
      3.2.  The "udp-dtls-server-grouping" Grouping . . . . . . . . .   7
-     3.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   8
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
+     3.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   9
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .  11
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  11
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  11
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
+     5.1.  URI . . . . . . . . . . . . . . . . . . . . . . . . . . .  11
+     5.2.  YANG module name  . . . . . . . . . . . . . . . . . . . .  11
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  12
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  12
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  12
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .  13
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
 
@@ -91,10 +96,23 @@ Table of Contents
 
 2.  The "ietf-udp-client" Module
 
+   The "ietf-udp-client" YANG module defines two groupings for
+   configuring UDP clients: the "udp-client-grouping" for UDP clients
+   and the "udp-dtls-client-grouping" for UDP clients with DTLS 1.3
+   [RFC9147] enryption.
+
 2.1.  The "udp-client-grouping" Grouping
 
    The following tree diagram [RFC8340] illustrates the "udp-client-
    grouping" grouping:
+
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 2]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
 
    module: ietf-udp-client
 
@@ -106,13 +124,6 @@ Table of Contents
 
    The following tree diagram [RFC8340] illustrates the "udp-dtls-
    client-grouping" grouping:
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 2]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
 
 module: ietf-udp-client
 
@@ -151,6 +162,14 @@ module: ietf-udp-client
        |  |  +-- (local-or-truststore)
        |  |     +--:(local) {local-definitions-supported}?
        |  |     |  +-- local-definition
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 3]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
        |  |     |        ...
        |  |     +--:(truststore)
        |  |              {central-truststore-supported,certificates}?
@@ -162,14 +181,6 @@ module: ietf-udp-client
        |  |     |        ...
        |  |     +--:(truststore)
        |  |              {central-truststore-supported,certificates}?
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 3]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
-
        |  |        +-- truststore-reference?   ts:certificate-bag-ref
        |  +-- raw-public-keys! {server-auth-raw-public-key}?
        |  |  +-- (local-or-truststore)
@@ -195,7 +206,9 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 2.3.  YANG Module
 
-   The "udp-client" YANG module:
+   The "ietf-udp-client" YANG module uses the groupings defined in
+   [I-D.ietf-netconf-tls-client-server] for configuring the DTLS 1.3
+   encryption.
 
    <CODE BEGINS> file "ietf-udp-client@2023-10-16.yang"
    module ietf-udp-client {
@@ -205,6 +218,14 @@ Internet-Draft         udp-client-server-grouping           October 2023
      prefix udpc;
      import ietf-inet-types {
        prefix inet;
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 4]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
        reference
          "RFC 6991: Common YANG Data Types";
      }
@@ -218,13 +239,6 @@ Internet-Draft         udp-client-server-grouping           October 2023
      contact
        "WG Web:   <http:/tools.ietf.org/wg/netconf/>
         WG List:  <mailto:netconf@ietf.org>
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 4]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
 
         Authors:  Alex Huang Feng
                   <mailto:alex.huang-feng@insa-lyon.fr>
@@ -260,6 +274,14 @@ Internet-Draft         udp-client-server-grouping           October 2023
      feature dtls13 {
        description
          "This feature indicates that DTLS 1.3 encryption of UDP
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 5]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
           packets is supported.";
      }
 
@@ -274,13 +296,6 @@ Internet-Draft         udp-client-server-grouping           October 2023
            "IP address of the UDP client, which can be an
            IPv4 address or an IPV6 address.";
        }
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 5]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
 
        leaf remote-port {
          type inet:port-number;
@@ -315,10 +330,23 @@ Internet-Draft         udp-client-server-grouping           October 2023
            "Container for configuring DTLS 1.3 parameters.";
        }
      }
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 6]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
    }
    <CODE ENDS>
 
 3.  The "ietf-udp-server" Module
+
+   The "ietf-udp-server" YANG module defines two groupings for
+   configuring UDP servers: the "udp-server-grouping" for UDP servers
+   and the "udp-dtls-server-grouping" for UDP servers with DTLS 1.3
+   [RFC9147] enryption.
 
 3.1.  The "udp-server-grouping" Grouping
 
@@ -330,13 +358,6 @@ Internet-Draft         udp-client-server-grouping           October 2023
      grouping udp-server-grouping:
        +-- local-address    inet:ip-address-no-zone
        +-- local-port       inet:port-number
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 6]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
 
 3.2.  The "udp-dtls-server-grouping" Grouping
 
@@ -365,6 +386,14 @@ module: ietf-udp-server
        |     |     +-- (local-or-keystore)
        |     |     |     ...
        |     |     +-- id_hint?                    string
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 7]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
        |     +--:(tls13-epsk) {server-ident-tls13-epsk}?
        |        +-- tls13-epsk
        |           +-- (local-or-keystore)
@@ -386,14 +415,6 @@ module: ietf-udp-server
        |  |        +-- truststore-reference?   ts:certificate-bag-ref
        |  +-- ee-certs! {client-auth-x509-cert}?
        |  |  +-- (local-or-truststore)
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 7]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
-
        |  |     +--:(local) {local-definitions-supported}?
        |  |     |  +-- local-definition
        |  |     |        ...
@@ -422,9 +443,18 @@ Internet-Draft         udp-client-server-grouping           October 2023
              +-- max-wait?       uint16
              +-- max-attempts?   uint8
 
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 8]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
 3.3.  YANG Module
 
-   The "udp-client" YANG module:
+   The "ietf-udp-server" YANG module uses the groupings defined in
+   [I-D.ietf-netconf-tls-client-server] for configuring the DTLS 1.3
+   encryption.
 
    <CODE BEGINS> file "ietf-udp-server@2023-10-16.yang"
    module ietf-udp-server {
@@ -442,13 +472,6 @@ Internet-Draft         udp-client-server-grouping           October 2023
        reference
          "RFC FFFF: YANG Groupings for TLS Clients and TLS Servers";
      }
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 8]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
 
      organization "IETF NETCONF (Network Configuration) Working Group";
      contact
@@ -476,6 +499,13 @@ Internet-Draft         udp-client-server-grouping           October 2023
        This version of this YANG module is part of RFC-to-be; see the RFC
        itself for full legal notices.";
 
+
+
+Huang Feng, et al.        Expires 19 April 2024                 [Page 9]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
      revision 2023-10-16 {
        description
          "Initial revision";
@@ -498,14 +528,6 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
        leaf local-address {
          type inet:ip-address-no-zone;
-
-
-
-Huang Feng & Francois     Expires 18 April 2024                 [Page 9]
-
-Internet-Draft         udp-client-server-grouping           October 2023
-
-
          mandatory true;
          description
            "IP address of the UDP server, which can be an
@@ -532,6 +554,14 @@ Internet-Draft         udp-client-server-grouping           October 2023
          uses tlss:tls-server-grouping {
            // Using tls-server-grouping without TLS1.2 parameters
            // allowing only DTLS 1.3
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                [Page 10]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
            refine "server-identity/auth-type/tls12-psk" {
              // create the logical impossibility of enabling TLS1.2
              if-feature "not tlss:server-ident-tls12-psk";
@@ -552,19 +582,46 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
    TODO:
 
+5.  IANA Considerations
+
+   This document describes the URIs from IETF XML Registry and the
+   registration of a two new YANG module names
+
+5.1.  URI
+
+   IANA is requested to assign two new URI from the IETF XML Registry
+   [RFC3688].  The following two URIs are suggested:
+
+   URI: urn:ietf:params:xml:ns:yang:ietf-udp-client
+   Registrant Contact: The IESG.
+   XML: N/A; the requested URI is an XML namespace.
+
+   URI: urn:ietf:params:xml:ns:yang:ietf-udp-server
+   Registrant Contact: The IESG.
+   XML: N/A; the requested URI is an XML namespace.
+
+5.2.  YANG module name
+
+   This document also requests two new YANG module names in the YANG
+   Module Names registry [RFC8342] with the following suggestions:
+
+   name: ietf-udp-client
+   namespace: urn:ietf:params:xml:ns:yang:ietf-udp-client
+   prefix: udpc
+   reference: RFC-to-be
 
 
 
 
-
-Huang Feng & Francois     Expires 18 April 2024                [Page 10]
+Huang Feng, et al.        Expires 19 April 2024                [Page 11]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
 
-5.  IANA Considerations
-
-   TODO:
+   name: ietf-udp-server
+   namespace: urn:ietf:params:xml:ns:yang:ietf-udp-server
+   prefix: udps
+   reference: RFC-to-be
 
 6.  Acknowledgements
 
@@ -575,10 +632,21 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 7.1.  Normative References
 
+   [I-D.ietf-netconf-tls-client-server]
+              Watsen, K., "YANG Groupings for TLS Clients and TLS
+              Servers", Work in Progress, Internet-Draft, draft-ietf-
+              netconf-tls-client-server-33, 17 April 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-netconf-
+              tls-client-server-33>.
+
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
               Requirement Levels", BCP 14, RFC 2119,
               DOI 10.17487/RFC2119, March 1997,
               <https://www.rfc-editor.org/info/rfc2119>.
+
+   [RFC3688]  Mealling, M., "The IETF XML Registry", BCP 81, RFC 3688,
+              DOI 10.17487/RFC3688, January 2004,
+              <https://www.rfc-editor.org/info/rfc3688>.
 
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
@@ -591,6 +659,25 @@ Internet-Draft         udp-client-server-grouping           October 2023
    [RFC8340]  Bjorklund, M. and L. Berger, Ed., "YANG Tree Diagrams",
               BCP 215, RFC 8340, DOI 10.17487/RFC8340, March 2018,
               <https://www.rfc-editor.org/info/rfc8340>.
+
+   [RFC8342]  Bjorklund, M., Schoenwaelder, J., Shafer, P., Watsen, K.,
+              and R. Wilton, "Network Management Datastore Architecture
+              (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
+              <https://www.rfc-editor.org/info/rfc8342>.
+
+
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                [Page 12]
+
+Internet-Draft         udp-client-server-grouping           October 2023
+
+
+   [RFC9147]  Rescorla, E., Tschofenig, H., and N. Modadugu, "The
+              Datagram Transport Layer Security (DTLS) Protocol Version
+              1.3", RFC 9147, DOI 10.17487/RFC9147, April 2022,
+              <https://www.rfc-editor.org/info/rfc9147>.
 
 7.2.  Informative References
 
@@ -610,7 +697,32 @@ Authors' Addresses
    Email: pierre.francois@insa-lyon.fr
 
 
+   Kent Watsen
+   Watsen Networks
+   Email: kent+ietf@watsen.net
 
 
 
-Huang Feng & Francois     Expires 18 April 2024                [Page 11]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Huang Feng, et al.        Expires 19 April 2024                [Page 13]
