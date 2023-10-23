@@ -5,9 +5,9 @@
 Network Working Group                                      A. Huang Feng
 Internet-Draft                                               P. Francois
 Intended status: Standards Track                               INSA-Lyon
-Expires: 19 April 2024                                         K. Watsen
+Expires: 25 April 2024                                         K. Watsen
                                                          Watsen Networks
-                                                         17 October 2023
+                                                         23 October 2023
 
 
              YANG Grouping for UDP Clients and UDP Servers
@@ -17,7 +17,8 @@ Abstract
 
    This document defines two YANG 1.1 modules to support the
    configuration of UDP clients and UDP servers.  The modules include
-   basic parameters for configuring UDP based clients and servers.
+   basic parameters for configuring UDP based clients and servers and a
+   DTLS container when encryption needs to be enabled.
 
 Requirements Language
 
@@ -42,7 +43,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 19 April 2024.
+   This Internet-Draft will expire on 25 April 2024.
 
 Copyright Notice
 
@@ -52,8 +53,7 @@ Copyright Notice
 
 
 
-
-Huang Feng, et al.        Expires 19 April 2024                 [Page 1]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 1]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 2]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 2]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -165,7 +165,7 @@ module: ietf-udp-client
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 3]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 3]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -221,7 +221,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 4]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 4]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -277,7 +277,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 5]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 5]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -333,7 +333,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 6]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 6]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -389,7 +389,7 @@ module: ietf-udp-server
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 7]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 7]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -445,7 +445,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 8]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 8]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -501,7 +501,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                 [Page 9]
+Huang Feng, et al.        Expires 25 April 2024                 [Page 9]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -557,7 +557,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                [Page 10]
+Huang Feng, et al.        Expires 25 April 2024                [Page 10]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -613,7 +613,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                [Page 11]
+Huang Feng, et al.        Expires 25 April 2024                [Page 11]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -669,7 +669,7 @@ Internet-Draft         udp-client-server-grouping           October 2023
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                [Page 12]
+Huang Feng, et al.        Expires 25 April 2024                [Page 12]
 
 Internet-Draft         udp-client-server-grouping           October 2023
 
@@ -725,4 +725,4 @@ Authors' Addresses
 
 
 
-Huang Feng, et al.        Expires 19 April 2024                [Page 13]
+Huang Feng, et al.        Expires 25 April 2024                [Page 13]
