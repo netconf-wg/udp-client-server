@@ -1,0 +1,609 @@
+<?xml version="1.0" encoding="US-ASCII"?>
+<!DOCTYPE rfc SYSTEM "rfc2629.dtd">
+<?rfc toc="yes"?>
+<?rfc tocompact="yes"?>
+<?rfc tocdepth="2"?>
+<?rfc tocindent="yes"?>
+<?rfc symrefs="yes"?>
+<?rfc sortrefs="yes"?>
+<?rfc comments="yes"?>
+<?rfc inline="yes"?>
+<?rfc compact="yes"?>
+<?rfc subcompact="no"?>
+<rfc category="std" docName="draft-ahuang-netconf-udp-client-server-01"
+     ipr="trust200902">
+  <front>
+    <title abbrev="udp-client-server-grouping">YANG Grouping for UDP
+    Clients and UDP Servers</title>
+
+    <author fullname="Alex Huang Feng" initials="A." surname="Huang Feng">
+      <organization>INSA-Lyon</organization>
+
+      <address>
+        <postal>
+          <street/>
+
+          <city>Lyon</city>
+
+          <region/>
+
+          <code/>
+
+          <country>France</country>
+        </postal>
+
+        <phone/>
+
+        <facsimile/>
+
+        <email>alex.huang-feng@insa-lyon.fr</email>
+
+        <uri/>
+      </address>
+    </author>
+
+    <author fullname="Pierre Francois" initials="P." surname="Francois">
+      <organization>INSA-Lyon</organization>
+
+      <address>
+        <postal>
+          <street/>
+
+          <city>Lyon</city>
+
+          <region/>
+
+          <code/>
+
+          <country>France</country>
+        </postal>
+
+        <phone/>
+
+        <facsimile/>
+
+        <email>pierre.francois@insa-lyon.fr</email>
+
+        <uri/>
+      </address>
+    </author>
+    <author fullname="Kent Watsen" initials="K." surname="Watsen">
+      <organization>Watsen Networks</organization>
+      <address>
+        <email>kent+ietf@watsen.net</email>
+      </address>
+    </author>
+
+    <date day="23" month="October" year="2023"/>
+
+    <abstract>
+      <t>This document defines two YANG 1.1 modules to
+      support the configuration of UDP clients and UDP servers. The modules include
+      basic parameters for configuring UDP based clients and servers and a DTLS
+      container when encryption needs to be enabled.</t>
+    </abstract>
+
+    <note title="Requirements Language">
+      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+      "OPTIONAL" in this document are to be interpreted as described in BCP 14
+      <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when,
+      they appear in all capitals, as shown here.</t>
+    </note>
+  </front>
+
+  <middle>
+    <section anchor="introduction" title="Introduction">
+      <t>This documents defines two YANG 1.1 <xref target="RFC7950"/> modules to support
+      the configuration of UDP clients and UDP servers, either as standalone or in 
+      conjunction with configuration of other protocol layers.</t>
+    </section>
+
+    <section anchor="udp-client" title='The "ietf-udp-client" Module'>
+      <t>The "ietf-udp-client" YANG module defines two groupings for configuring UDP clients:
+      the "udp-client-grouping" for UDP clients and the "udp-dtls-client-grouping" for UDP 
+      clients with DTLS 1.3 <xref target="RFC9147"/> enryption.</t>
+
+      <section anchor="udp-client-grouping" title='The "udp-client-grouping" Grouping'>
+        <t>The following tree diagram <xref target="RFC8340"/> illustrates the 
+        "udp-client-grouping" grouping:</t>
+        
+          <t><figure>
+              <artwork><![CDATA[
+module: ietf-udp-client
+
+  grouping udp-client-grouping:
+    +-- remote-address    inet:ip-address-no-zone
+    +-- remote-port       inet:port-number
+          ]]></artwork>
+            </figure>
+          </t>
+      </section>
+      <section anchor="udp-client-dmo" title='The "udp-dtls-client-grouping" Grouping'>
+        <t>The following tree diagram <xref target="RFC8340"/> illustrates the 
+        "udp-dtls-client-grouping" grouping:</t>
+
+          <t><figure>
+              <artwork><![CDATA[
+module: ietf-udp-client
+
+  grouping udp-dtls-client-grouping:
+    +-- remote-address    inet:ip-address-no-zone
+    +-- remote-port       inet:port-number
+    +-- dtls! {dtls13}?
+       +-- client-identity!
+       |  +-- (auth-type)
+       |     +--:(certificate) {client-ident-x509-cert}?
+       |     |  +-- certificate
+       |     |     +-- (local-or-keystore)
+       |     |           ...
+       |     +--:(raw-public-key) {client-ident-raw-public-key}?
+       |     |  +-- raw-private-key
+       |     |     +-- (local-or-keystore)
+       |     |           ...
+       |     +--:(tls12-psk)
+       |     |        {client-ident-tls12-psk,not tlsc:client-ident-tls12-psk}?
+       |     |  +-- tls12-psk
+       |     |     +-- (local-or-keystore)
+       |     |     |     ...
+       |     |     +-- id?                         string
+       |     +--:(tls13-epsk) {client-ident-tls13-epsk}?
+       |        +-- tls13-epsk
+       |           +-- (local-or-keystore)
+       |           |     ...
+       |           +-- external-identity           string
+       |           +-- hash
+       |           |       tlscmn:epsk-supported-hash
+       |           +-- context?                    string
+       |           +-- target-protocol?            uint16
+       |           +-- target-kdf?                 uint16
+       +-- server-authentication
+       |  +-- ca-certs! {server-auth-x509-cert}?
+       |  |  +-- (local-or-truststore)
+       |  |     +--:(local) {local-definitions-supported}?
+       |  |     |  +-- local-definition
+       |  |     |        ...
+       |  |     +--:(truststore)
+       |  |              {central-truststore-supported,certificates}?
+       |  |        +-- truststore-reference?   ts:certificate-bag-ref
+       |  +-- ee-certs! {server-auth-x509-cert}?
+       |  |  +-- (local-or-truststore)
+       |  |     +--:(local) {local-definitions-supported}?
+       |  |     |  +-- local-definition
+       |  |     |        ...
+       |  |     +--:(truststore)
+       |  |              {central-truststore-supported,certificates}?
+       |  |        +-- truststore-reference?   ts:certificate-bag-ref
+       |  +-- raw-public-keys! {server-auth-raw-public-key}?
+       |  |  +-- (local-or-truststore)
+       |  |     +--:(local) {local-definitions-supported}?
+       |  |     |  +-- local-definition
+       |  |     |        ...
+       |  |     +--:(truststore)
+       |  |              {central-truststore-supported,public-keys}?
+       |  |        +-- truststore-reference?   ts:public-key-bag-ref
+       |  +-- tls12-psks?        empty
+       |  |       {server-auth-tls12-psk,not tlsc:server-auth-tls12-psk}?
+       |  +-- tls13-epsks?       empty {server-auth-tls13-epsk}?
+       +-- hello-params {tlscmn:hello-params}?
+       |  +-- tls-versions
+       |  |  +-- tls-version*   identityref
+       |  +-- cipher-suites
+       |     +-- cipher-suite*   identityref
+       +-- keepalives {tls-client-keepalives}?
+          +-- peer-allowed-to-send?   empty
+          +-- test-peer-aliveness!
+             +-- max-wait?       uint16
+             +-- max-attempts?   uint8
+          ]]></artwork>
+            </figure>
+          </t>
+      </section>
+      <section anchor="udp-client-ym" title="YANG Module">
+        <t>The "ietf-udp-client" YANG module uses the groupings defined in
+        <xref target="I-D.ietf-netconf-tls-client-server"/> for configuring the
+        DTLS 1.3 encryption.</t>
+
+          <t><figure>
+              <artwork><![CDATA[
+<CODE BEGINS> file "ietf-udp-client@2023-10-16.yang"
+module ietf-udp-client {
+  yang-version 1.1;
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-udp-client";
+  prefix udpc;
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-tls-client {
+    prefix tlsc;
+    reference
+      "RFC TTTT: YANG Groupings for TLS Clients and TLS Servers";
+  }
+
+  organization "IETF NETCONF (Network Configuration) Working Group";
+  contact
+    "WG Web:   <http:/tools.ietf.org/wg/netconf/>
+     WG List:  <mailto:netconf@ietf.org>
+
+     Authors:  Alex Huang Feng
+               <mailto:alex.huang-feng@insa-lyon.fr>
+               Pierre Francois
+               <mailto:pierre.francois@insa-lyon.fr>";
+
+  description
+    "Defines a generic grouping for UDP-based client applications.
+    Supports groupings for UDP clients and UDP clients with DTLS encryption.
+
+    Copyright (c) 2023 IETF Trust and the persons identified as
+    authors of the code.  All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, is permitted pursuant to, and subject to the license
+    terms contained in, the Revised BSD License set forth in Section
+    4.c of the IETF Trust's Legal Provisions Relating to IETF Documents
+    (https://trustee.ietf.org/license-info).
+
+    This version of this YANG module is part of RFC-to-be; see the RFC
+    itself for full legal notices.";
+
+  revision 2023-10-16 {
+    description
+      "Initial revision";
+    reference
+      "RFC-to-be: YANG Grouping for UDP Clients and UDP Servers";
+  }
+
+ /*
+  * FEATURES
+  */
+  feature dtls13 {
+    description
+      "This feature indicates that DTLS 1.3 encryption of UDP
+       packets is supported.";
+  }
+
+  grouping udp-client-grouping {
+    description
+      "Provides a reusable grouping for configuring a UDP client.";
+
+    leaf remote-address {
+      type inet:ip-address-no-zone;
+      mandatory true;
+      description
+        "IP address of the UDP client, which can be an
+        IPv4 address or an IPV6 address.";
+    }
+
+    leaf remote-port {
+      type inet:port-number;
+      mandatory true;
+      description
+        "Port number of the UDP client.";
+    }
+  }
+
+  grouping udp-dtls-client-grouping {
+    description
+      "Provides a reusable grouping for configuring a UDP client with 
+      DTLS encryption.";
+
+    uses udp-client-grouping;
+    container dtls {
+      if-feature dtls13;
+      presence dtls;
+      uses tlsc:tls-client-grouping {
+        // Using tls-client-grouping without TLS1.2 parameters
+        // allowing only DTLS 1.3
+        refine "client-identity/auth-type/tls12-psk" {
+          // create the logical impossibility of enabling TLS1.2
+          if-feature "not tlsc:client-ident-tls12-psk";
+        }
+        refine "server-authentication/tls12-psks" {
+          // create the logical impossibility of enabling TLS1.2
+          if-feature "not tlsc:server-auth-tls12-psk";
+        }
+      }
+      description 
+        "Container for configuring DTLS 1.3 parameters.";
+    }
+  }
+}
+<CODE ENDS>]]></artwork>
+            </figure>
+          </t>
+      </section>
+    </section>
+
+    <section anchor="udp-server" title='The "ietf-udp-server" Module'>
+      <t>The "ietf-udp-server" YANG module defines two groupings for configuring UDP servers:
+      the "udp-server-grouping" for UDP servers and the "udp-dtls-server-grouping" for UDP 
+      servers with DTLS 1.3 <xref target="RFC9147"/> enryption.</t>
+
+      <section anchor="udp-server-grouping" title='The "udp-server-grouping" Grouping'>
+        <t>The following tree diagram <xref target="RFC8340"/> illustrates the 
+        "udp-server-grouping" grouping:</t>
+        
+          <t><figure>
+              <artwork><![CDATA[
+module: ietf-udp-server
+
+  grouping udp-server-grouping:
+    +-- local-address    inet:ip-address-no-zone
+    +-- local-port       inet:port-number
+          ]]></artwork>
+            </figure>
+        </t>
+      </section>
+      <section anchor="udp-dtls-server-grouping" title='The "udp-dtls-server-grouping" Grouping'>
+        <t>The following tree diagram <xref target="RFC8340"/> illustrates the 
+        "udp-dtls-server-grouping" grouping:</t>
+
+          <t><figure>
+              <artwork><![CDATA[
+module: ietf-udp-server
+
+  grouping udp-dtls-server-grouping:
+    +-- local-address    inet:ip-address-no-zone
+    +-- local-port       inet:port-number
+    +-- dtls! {dtls13}?
+       +-- server-identity
+       |  +-- (auth-type)
+       |     +--:(certificate) {server-ident-x509-cert}?
+       |     |  +-- certificate
+       |     |     +-- (local-or-keystore)
+       |     |           ...
+       |     +--:(raw-private-key) {server-ident-raw-public-key}?
+       |     |  +-- raw-private-key
+       |     |     +-- (local-or-keystore)
+       |     |           ...
+       |     +--:(tls12-psk)
+       |     |        {server-ident-tls12-psk,not tlss:server-ident-tls12-psk}?
+       |     |  +-- tls12-psk
+       |     |     +-- (local-or-keystore)
+       |     |     |     ...
+       |     |     +-- id_hint?                    string
+       |     +--:(tls13-epsk) {server-ident-tls13-epsk}?
+       |        +-- tls13-epsk
+       |           +-- (local-or-keystore)
+       |           |     ...
+       |           +-- external-identity           string
+       |           +-- hash
+       |           |       tlscmn:epsk-supported-hash
+       |           +-- context?                    string
+       |           +-- target-protocol?            uint16
+       |           +-- target-kdf?                 uint16
+       +-- client-authentication! {client-auth-supported}?
+       |  +-- ca-certs! {client-auth-x509-cert}?
+       |  |  +-- (local-or-truststore)
+       |  |     +--:(local) {local-definitions-supported}?
+       |  |     |  +-- local-definition
+       |  |     |        ...
+       |  |     +--:(truststore)
+       |  |              {central-truststore-supported,certificates}?
+       |  |        +-- truststore-reference?   ts:certificate-bag-ref
+       |  +-- ee-certs! {client-auth-x509-cert}?
+       |  |  +-- (local-or-truststore)
+       |  |     +--:(local) {local-definitions-supported}?
+       |  |     |  +-- local-definition
+       |  |     |        ...
+       |  |     +--:(truststore)
+       |  |              {central-truststore-supported,certificates}?
+       |  |        +-- truststore-reference?   ts:certificate-bag-ref
+       |  +-- raw-public-keys! {client-auth-raw-public-key}?
+       |  |  +-- (local-or-truststore)
+       |  |     +--:(local) {local-definitions-supported}?
+       |  |     |  +-- local-definition
+       |  |     |        ...
+       |  |     +--:(truststore)
+       |  |              {central-truststore-supported,public-keys}?
+       |  |        +-- truststore-reference?   ts:public-key-bag-ref
+       |  +-- tls12-psks?        empty
+       |  |       {client-auth-tls12-psk,not tlss:client-auth-tls12-psk}?
+       |  +-- tls13-epsks?       empty {client-auth-tls13-epsk}?
+       +-- hello-params {tlscmn:hello-params}?
+       |  +-- tls-versions
+       |  |  +-- tls-version*   identityref
+       |  +-- cipher-suites
+       |     +-- cipher-suite*   identityref
+       +-- keepalives {tls-server-keepalives}?
+          +-- peer-allowed-to-send?   empty
+          +-- test-peer-aliveness!
+             +-- max-wait?       uint16
+             +-- max-attempts?   uint8
+          ]]></artwork>
+            </figure>
+        </t>
+      </section>
+      <section anchor="udp-server-ym" title="YANG Module">
+        <t>The "ietf-udp-server" YANG module uses the groupings defined in
+        <xref target="I-D.ietf-netconf-tls-client-server"/> for configuring the
+        DTLS 1.3 encryption.</t>
+
+                  <t><figure>
+              <artwork><![CDATA[
+<CODE BEGINS> file "ietf-udp-server@2023-10-16.yang"
+module ietf-udp-server {
+  yang-version 1.1;
+  namespace
+    "urn:ietf:params:xml:ns:yang:ietf-udp-server";
+  prefix udps;
+  import ietf-inet-types {
+    prefix inet;
+    reference
+      "RFC 6991: Common YANG Data Types";
+  }
+  import ietf-tls-server {
+    prefix tlss;
+    reference
+      "RFC FFFF: YANG Groupings for TLS Clients and TLS Servers";
+  }
+
+  organization "IETF NETCONF (Network Configuration) Working Group";
+  contact
+    "WG Web:   <http:/tools.ietf.org/wg/netconf/>
+     WG List:  <mailto:netconf@ietf.org>
+
+     Authors:  Alex Huang Feng
+               <mailto:alex.huang-feng@insa-lyon.fr>
+               Pierre Francois
+               <mailto:pierre.francois@insa-lyon.fr>";
+
+  description
+    "Defines a generic grouping for UDP-based server applications.
+    Supports groupings for UDP servers and UDP servers with DTLS encryption.
+
+    Copyright (c) 2023 IETF Trust and the persons identified as
+    authors of the code.  All rights reserved.
+
+    Redistribution and use in source and binary forms, with or without
+    modification, is permitted pursuant to, and subject to the license
+    terms contained in, the Revised BSD License set forth in Section
+    4.c of the IETF Trust's Legal Provisions Relating to IETF Documents
+    (https://trustee.ietf.org/license-info).
+
+    This version of this YANG module is part of RFC-to-be; see the RFC
+    itself for full legal notices.";
+
+  revision 2023-10-16 {
+    description
+      "Initial revision";
+    reference
+      "RFC-to-be: YANG Grouping for UDP Clients and UDP Servers";
+  }
+
+ /*
+  * FEATURES
+  */
+  feature dtls13 {
+    description
+      "This feature indicates that DTLS 1.3 encryption of UDP
+       packets is supported.";
+  }
+
+  grouping udp-server-grouping {
+    description
+      "Provides a reusable grouping for configuring a UDP servers.";
+
+    leaf local-address {
+      type inet:ip-address-no-zone;
+      mandatory true;
+      description
+        "IP address of the UDP server, which can be an
+        IPv4 address or an IPV6 address.";
+    }
+
+    leaf local-port {
+      type inet:port-number;
+      mandatory true;
+      description
+        "Port number of the UDP server.";
+    }
+  }
+
+  grouping udp-dtls-server-grouping {
+    description
+      "Provides a reusable grouping for configuring a UDP server with 
+      DTLS encryption.";
+
+    uses udp-server-grouping;
+    container dtls {
+      if-feature dtls13;
+      presence dtls;
+      uses tlss:tls-server-grouping {
+        // Using tls-server-grouping without TLS1.2 parameters
+        // allowing only DTLS 1.3
+        refine "server-identity/auth-type/tls12-psk" {
+          // create the logical impossibility of enabling TLS1.2
+          if-feature "not tlss:server-ident-tls12-psk";
+        }
+        refine "client-authentication/tls12-psks" {
+          // create the logical impossibility of enabling TLS1.2
+          if-feature "not tlss:client-auth-tls12-psk";
+        }
+      }
+      description 
+        "Container for configuring DTLS 1.3 parameters.";
+    }
+  }
+}
+<CODE ENDS>]]></artwork>
+            </figure>
+          </t>
+      </section>
+    </section>
+
+    <section anchor="security" title="Security Considerations">
+      <t>TODO:</t>
+    </section>
+
+    <section anchor="IANA_Considerations" title="IANA Considerations">
+      <t>This document describes the URIs from IETF
+      XML Registry and the registration of a two new YANG module names</t>
+      <section title="URI">
+        <t>IANA is requested to assign two new URI from the <xref
+        target="RFC3688">IETF XML Registry</xref>. The following two URIs are
+        suggested:</t>
+
+        <t><figure>
+            <artwork align="left"><![CDATA[
+URI: urn:ietf:params:xml:ns:yang:ietf-udp-client
+Registrant Contact: The IESG.
+XML: N/A; the requested URI is an XML namespace.]]></artwork>
+          </figure></t>
+
+        <t><figure>
+            <artwork align="left"><![CDATA[
+URI: urn:ietf:params:xml:ns:yang:ietf-udp-server
+Registrant Contact: The IESG.
+XML: N/A; the requested URI is an XML namespace.]]></artwork>
+          </figure></t>
+      </section>
+
+      <section title="YANG module name">
+        <t>This document also requests two new YANG module names in the
+        <xref target="RFC8342">YANG Module Names registry</xref> with the
+        following suggestions:</t>
+
+        <t><figure>
+            <artwork align="left"><![CDATA[
+name: ietf-udp-client
+namespace: urn:ietf:params:xml:ns:yang:ietf-udp-client
+prefix: udpc
+reference: RFC-to-be]]></artwork>
+          </figure></t>
+
+        <t><figure>
+            <artwork align="left"><![CDATA[
+name: ietf-udp-server
+namespace: urn:ietf:params:xml:ns:yang:ietf-udp-server
+prefix: udps
+reference: RFC-to-be]]></artwork>
+          </figure></t>
+      </section>
+    </section>
+
+    <section anchor="acknowledgements" title="Acknowledgements">
+      <t>The authors would like to thank xxx for their review and valuable
+      comments.</t>
+    </section>
+  </middle>
+
+  <back>
+    <references title="Normative References">
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.7950.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8340.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8342.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.9147.xml"?>
+      <?rfc include="https://datatracker.ietf.org/doc/bibxml3/draft-ietf-netconf-tls-client-server-33.xml"?>
+    </references>
+
+    <references title="Informative References">
+    </references>
+  </back>
+</rfc>
