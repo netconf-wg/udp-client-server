@@ -5,9 +5,9 @@
 Network Working Group                                      A. Huang Feng
 Internet-Draft                                               P. Francois
 Intended status: Standards Track                               INSA-Lyon
-Expires: 6 June 2024                                           K. Watsen
+Expires: 9 June 2024                                           K. Watsen
                                                          Watsen Networks
-                                                         4 December 2023
+                                                         7 December 2023
 
 
              YANG Grouping for UDP Clients and UDP Servers
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 6 June 2024.
+   This Internet-Draft will expire on 9 June 2024.
 
 Copyright Notice
 
@@ -53,7 +53,7 @@ Copyright Notice
 
 
 
-Huang Feng, et al.         Expires 6 June 2024                  [Page 1]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 1]
 
 Internet-Draft         udp-client-server-grouping          December 2023
 
@@ -109,7 +109,7 @@ Table of Contents
 
 
 
-Huang Feng, et al.         Expires 6 June 2024                  [Page 2]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 2]
 
 Internet-Draft         udp-client-server-grouping          December 2023
 
@@ -165,7 +165,7 @@ Internet-Draft         udp-client-server-grouping          December 2023
 
 
 
-Huang Feng, et al.         Expires 6 June 2024                  [Page 3]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 3]
 
 Internet-Draft         udp-client-server-grouping          December 2023
 
@@ -221,7 +221,7 @@ Internet-Draft         udp-client-server-grouping          December 2023
 
 
 
-Huang Feng, et al.         Expires 6 June 2024                  [Page 4]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 4]
 
 Internet-Draft         udp-client-server-grouping          December 2023
 
@@ -255,7 +255,6 @@ Internet-Draft         udp-client-server-grouping          December 2023
 
      description
        "Defines a generic grouping for UDP-based server applications.
-       Supports groupings for UDP servers and UDP servers with DTLS encryption.
 
        Copyright (c) 2023 IETF Trust and the persons identified as
        authors of the code.  All rights reserved.
@@ -274,15 +273,14 @@ Internet-Draft         udp-client-server-grouping          December 2023
          "Initial revision";
        reference
          "RFC-to-be: YANG Grouping for UDP Clients and UDP Servers";
+     }
 
 
 
-Huang Feng, et al.         Expires 6 June 2024                  [Page 5]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 5]
 
 Internet-Draft         udp-client-server-grouping          December 2023
 
-
-     }
 
      grouping udp-server-grouping {
        description
@@ -308,7 +306,16 @@ Internet-Draft         udp-client-server-grouping          December 2023
 
 4.  Security Considerations
 
-   TODO:
+   Following the guidelines for UDP applications defined in [RFC8085],
+   "applications that need to protect their communications against
+   eavesdropping, tampering, or message forgery SHOULD employ end-to-end
+   security services provided by other IETF protocols".  A UDP client
+   and server can use DTLS [RFC9147] [RFC7525] to encrypt the payloads.
+
+   For configuring a UDP application with DTLS encryption, the groupings
+   "tls-client-grouping" and "tls-server-grouping" defined in "ietf-tls-
+   client" and "ietf-tls-server" modules can be used
+   [I-D.ietf-netconf-tls-client-server].
 
 5.  IANA Considerations
 
@@ -324,19 +331,16 @@ Internet-Draft         udp-client-server-grouping          December 2023
    Registrant Contact: The IESG.
    XML: N/A; the requested URI is an XML namespace.
 
-   URI: urn:ietf:params:xml:ns:yang:ietf-udp-server
-   Registrant Contact: The IESG.
-   XML: N/A; the requested URI is an XML namespace.
 
 
-
-
-
-
-Huang Feng, et al.         Expires 6 June 2024                  [Page 6]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 6]
 
 Internet-Draft         udp-client-server-grouping          December 2023
 
+
+   URI: urn:ietf:params:xml:ns:yang:ietf-udp-server
+   Registrant Contact: The IESG.
+   XML: N/A; the requested URI is an XML namespace.
 
 5.2.  YANG module name
 
@@ -385,11 +389,7 @@ Internet-Draft         udp-client-server-grouping          December 2023
 
 
 
-
-
-
-
-Huang Feng, et al.         Expires 6 June 2024                  [Page 7]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 7]
 
 Internet-Draft         udp-client-server-grouping          December 2023
 
@@ -399,12 +399,29 @@ Internet-Draft         udp-client-server-grouping          December 2023
               (NMDA)", RFC 8342, DOI 10.17487/RFC8342, March 2018,
               <https://www.rfc-editor.org/info/rfc8342>.
 
+7.2.  Informative References
+
+   [I-D.ietf-netconf-tls-client-server]
+              Watsen, K., "YANG Groupings for TLS Clients and TLS
+              Servers", Work in Progress, Internet-Draft, draft-ietf-
+              netconf-tls-client-server-33, 17 April 2023,
+              <https://datatracker.ietf.org/doc/html/draft-ietf-netconf-
+              tls-client-server-33>.
+
+   [RFC7525]  Sheffer, Y., Holz, R., and P. Saint-Andre,
+              "Recommendations for Secure Use of Transport Layer
+              Security (TLS) and Datagram Transport Layer Security
+              (DTLS)", RFC 7525, DOI 10.17487/RFC7525, May 2015,
+              <https://www.rfc-editor.org/info/rfc7525>.
+
+   [RFC8085]  Eggert, L., Fairhurst, G., and G. Shepherd, "UDP Usage
+              Guidelines", BCP 145, RFC 8085, DOI 10.17487/RFC8085,
+              March 2017, <https://www.rfc-editor.org/info/rfc8085>.
+
    [RFC9147]  Rescorla, E., Tschofenig, H., and N. Modadugu, "The
               Datagram Transport Layer Security (DTLS) Protocol Version
               1.3", RFC 9147, DOI 10.17487/RFC9147, April 2022,
               <https://www.rfc-editor.org/info/rfc9147>.
-
-7.2.  Informative References
 
 Authors' Addresses
 
@@ -428,21 +445,4 @@ Authors' Addresses
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-Huang Feng, et al.         Expires 6 June 2024                  [Page 8]
+Huang Feng, et al.         Expires 9 June 2024                  [Page 8]

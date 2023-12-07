@@ -74,7 +74,7 @@
       </address>
     </author>
 
-    <date day="4" month="December" year="2023"/>
+    <date day="7" month="December" year="2023"/>
 
     <abstract>
       <t>This document defines two YANG 1.1 modules to
@@ -241,7 +241,6 @@ module ietf-udp-server {
 
   description
     "Defines a generic grouping for UDP-based server applications.
-    Supports groupings for UDP servers and UDP servers with DTLS encryption.
 
     Copyright (c) 2023 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
@@ -289,7 +288,17 @@ module ietf-udp-server {
     </section>
 
     <section anchor="security" title="Security Considerations">
-      <t>TODO:</t>
+      <t>Following the guidelines for UDP applications defined in 
+      <xref target="RFC8085"/>, "applications that need to protect their
+      communications against eavesdropping, tampering, or message forgery
+      SHOULD employ end-to-end security services provided by other IETF protocols".
+      A UDP client and server can use DTLS <xref target="RFC9147"/>
+      <xref target="RFC7525"/> to encrypt the payloads.</t>
+
+      <t>For configuring a UDP application with DTLS encryption, the groupings
+      "tls-client-grouping" and "tls-server-grouping" defined in "ietf-tls-client"
+      and "ietf-tls-server" modules can be used 
+      <xref target="I-D.ietf-netconf-tls-client-server"/>.</t>
     </section>
 
     <section anchor="IANA_Considerations" title="IANA Considerations">
@@ -352,10 +361,13 @@ reference: RFC-to-be]]></artwork>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8340.xml"?>
       <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8342.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.9147.xml"?>
     </references>
 
     <references title="Informative References">
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.7525.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8085.xml"?>
+      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.9147.xml"?>
+      <?rfc include="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-netconf-tls-client-server.xml"?>
     </references>
   </back>
 </rfc>

@@ -21,7 +21,6 @@ module ietf-udp-server {
 
   description
     "Defines a generic grouping for UDP-based server applications.
-    Supports groupings for UDP servers and UDP servers with DTLS encryption.
 
     Copyright (c) 2023 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
