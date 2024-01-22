@@ -34,7 +34,7 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2023-12-04 {
+  revision 2024-01-22 {
     description
       "Initial revision";
     reference
