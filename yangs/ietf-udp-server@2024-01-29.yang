@@ -1,8 +1,8 @@
-module ietf-udp-client {
+module ietf-udp-server {
   yang-version 1.1;
   namespace
-    "urn:ietf:params:xml:ns:yang:ietf-udp-client";
-  prefix udpc;
+    "urn:ietf:params:xml:ns:yang:ietf-udp-server";
+  prefix udps;
   import ietf-inet-types {
     prefix inet;
     reference
@@ -20,9 +20,9 @@ module ietf-udp-client {
                <mailto:pierre.francois@insa-lyon.fr>";
 
   description
-    "Defines a generic grouping for UDP-based client applications.
+    "Defines a generic grouping for UDP-based server applications.
 
-    Copyright (c) 2023 IETF Trust and the persons identified as
+    Copyright (c) 2024 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -34,30 +34,30 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-01-22 {
+  revision 2024-01-29 {
     description
       "Initial revision";
     reference
       "RFC-to-be: YANG Grouping for UDP Clients and UDP Servers";
   }
 
-  grouping udp-client-grouping {
+  grouping udp-server-grouping {
     description
-      "Provides a reusable grouping for configuring a UDP client.";
+      "Provides a reusable grouping for configuring a UDP servers.";
 
-    leaf remote-address {
+    leaf local-address {
       type inet:ip-address-no-zone;
       mandatory true;
       description
-        "IP address of the UDP client, which can be an
+        "IP address of the UDP server, which can be an
         IPv4 address or an IPV6 address.";
     }
 
-    leaf remote-port {
+    leaf local-port {
       type inet:port-number;
       mandatory true;
       description
-        "Port number of the UDP client.";
+        "Port number of the UDP server.";
     }
   }
 }
