@@ -381,7 +381,7 @@ Internet-Draft         udp-client-server-grouping          February 2024
 6.  Acknowledgements
 
    The authors would like to thank Mohamed Boucadair, Benoit Claise,
-   Qiufang Ma for their review and valuable comments.
+   Qiufang Ma and Qin Wu for their review and valuable comments.
 
 7.  References
 
