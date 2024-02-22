@@ -118,7 +118,7 @@ Internet-Draft         udp-client-server-grouping          February 2024
 
      grouping udp-client-grouping:
        +-- remote-address    inet:ip-address-no-zone
-       +-- remote-port       inet:port-number
+       +-- remote-port?      inet:port-number
 
 2.2.  YANG Module
 
@@ -190,7 +190,7 @@ Internet-Draft         udp-client-server-grouping          February 2024
 
        leaf remote-port {
          type inet:port-number;
-         mandatory true;
+         default "0";
          description
            "Specifies a port number of the UDP client.";
        }
@@ -212,7 +212,7 @@ Internet-Draft         udp-client-server-grouping          February 2024
 
      grouping udp-server-grouping:
        +-- local-address    inet:ip-address-no-zone
-       +-- local-port       inet:port-number
+       +-- local-port?      inet:port-number
 
 3.2.  YANG Module
 
@@ -226,7 +226,7 @@ Huang Feng, et al.       Expires 25 August 2024                 [Page 4]
 Internet-Draft         udp-client-server-grouping          February 2024
 
 
-   <CODE BEGINS> file "ietf-udp-server@2024-01-29.yang"
+   <CODE BEGINS> file "ietf-udp-server@2024-02-22.yang"
    module ietf-udp-server {
      yang-version 1.1;
      namespace
@@ -292,7 +292,7 @@ Internet-Draft         udp-client-server-grouping          February 2024
 
        leaf local-port {
          type inet:port-number;
-         mandatory true;
+         default "0";
          description
            "Specifies a port number of the UDP server.";
        }
@@ -380,8 +380,8 @@ Internet-Draft         udp-client-server-grouping          February 2024
 
 6.  Acknowledgements
 
-   The authors would like to thank Benoit Claise, Mohamed Boucadair for
-   their review and valuable comments.
+   The authors would like to thank Mohamed Boucadair, Benoit Claise,
+   Qiufang Ma for their review and valuable comments.
 
 7.  References
 

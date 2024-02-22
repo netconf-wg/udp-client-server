@@ -55,7 +55,7 @@ module ietf-udp-client {
 
     leaf remote-port {
       type inet:port-number;
-      mandatory true;
+      default "0";
       description
         "Specifies a port number of the UDP client.";
     }
