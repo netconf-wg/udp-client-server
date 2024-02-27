@@ -104,7 +104,7 @@
       <section anchor="udp-client-grouping" title='The "udp-client-grouping" Grouping'>
         <t>The following tree diagram <xref target="RFC8340"/> illustrates the tree
         structure of the "udp-client-grouping" grouping:</t>
-        
+
           <t><figure>
               <artwork><![CDATA[
 module: ietf-udp-client
