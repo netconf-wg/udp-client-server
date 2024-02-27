@@ -57,7 +57,9 @@ module ietf-udp-client {
       type inet:port-number;
       default "0";
       description
-        "Specifies a port number of the UDP client.";
+        "Specifies a port number of the UDP client. An invalid default
+        value is used so that importing modules may 'refine' it with
+        the appropriate default port number value.";
     }
   }
 }

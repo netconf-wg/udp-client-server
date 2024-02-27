@@ -74,7 +74,7 @@
       </address>
     </author>
 
-    <date day="22" month="February" year="2024"/>
+    <date day="27" month="February" year="2024"/>
 
     <abstract>
       <t>This document defines two YANG 1.1 modules to
@@ -122,7 +122,7 @@ module: ietf-udp-client
 
           <t><figure>
               <artwork><![CDATA[
-<CODE BEGINS> file "ietf-udp-client@2024-02-22.yang"
+<CODE BEGINS> file "ietf-udp-client@2024-02-26.yang"
 module ietf-udp-client {
   yang-version 1.1;
   namespace
@@ -159,7 +159,7 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-02-22 {
+  revision 2024-02-26 {
     description
       "Initial revision";
     reference
@@ -182,7 +182,9 @@ module ietf-udp-client {
       type inet:port-number;
       default "0";
       description
-        "Specifies a port number of the UDP client.";
+        "Specifies a port number of the UDP client. An invalid default
+        value is used so that importing modules may 'refine' it with
+        the appropriate default port number value.";
     }
   }
 }
@@ -217,7 +219,7 @@ module: ietf-udp-server
 
         <t><figure>
           <artwork><![CDATA[
-<CODE BEGINS> file "ietf-udp-server@2024-02-22.yang"
+<CODE BEGINS> file "ietf-udp-server@2024-02-26.yang"
 module ietf-udp-server {
   yang-version 1.1;
   namespace
@@ -254,7 +256,7 @@ module ietf-udp-server {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-02-22 {
+  revision 2024-02-26 {
     description
       "Initial revision";
     reference
@@ -277,7 +279,9 @@ module ietf-udp-server {
       type inet:port-number;
       default "0";
       description
-        "Specifies a port number of the UDP server.";
+        "Specifies a port number of the UDP server. An invalid default
+        value is used so that importing modules may 'refine' it with
+        the appropriate default port number value.";
     }
   }
 }
@@ -306,19 +310,17 @@ module ietf-udp-server {
       <t>Since the module in this document only define groupings, these considerations are
       primarily for the designers of other modules that use these groupings.</t>
 
-      <t>TODO: follow https://wiki.ietf.org/group/ops/yang-security-guidelines.</t>
+      <t>None of the readable data nodes defined in this YANG module are considered sensitive
+      or vulnerable in network environments. The NACM "default-deny-all" extension has not
+      been set for any data nodes defined in this module.</t>
 
-      <t>Following the guidelines for UDP applications defined in <xref target="RFC8085"/>,
-        "applications that need to protect their communications against
-        eavesdropping, tampering, or message forgery SHOULD employ end-to-end
-        security services provided by other IETF protocols". A UDP client
-        and server can use DTLS <xref target="RFC9147"/><xref target="RFC9325"/> to encrypt the payloads.
-      </t>
+      <t>None of the writable data nodes defined in this YANG module are considered sensitive
+      or vulnerable in network environments. The NACM "default-deny-write" extension has not
+      been set for any data nodes defined in this module.</t>
 
-      <t>For configuring a UDP application with DTLS encryption, the groupings
-      "tls-client-grouping" and "tls-server-grouping" defined in "ietf-tls-client"
-      and "ietf-tls-server" modules can be used 
-      <xref target="I-D.ietf-netconf-tls-client-server"/>.</t>
+      <t>This module does not define any RPCs, actions, or notifications, and thus the security
+      consideration for such is not provided here.</t>
+
     </section>
 
     <section anchor="IANA_Considerations" title="IANA Considerations">
