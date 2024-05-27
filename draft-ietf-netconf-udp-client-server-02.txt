@@ -72,19 +72,21 @@ Table of Contents
    1.  Introduction  . . . . . . . . . . . . . . . . . . . . . . . .   2
    2.  The "ietf-udp-client" Module  . . . . . . . . . . . . . . . .   2
      2.1.  The "udp-client-grouping" Grouping  . . . . . . . . . . .   2
-     2.2.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   3
+     2.2.  Example Usage . . . . . . . . . . . . . . . . . . . . . .   3
+     2.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   3
    3.  The "ietf-udp-server" Module  . . . . . . . . . . . . . . . .   5
-     3.1.  The "udp-server-grouping" Grouping  . . . . . . . . . . .   5
-     3.2.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   5
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   8
-     5.1.  URI . . . . . . . . . . . . . . . . . . . . . . . . . . .   8
-     5.2.  YANG module name  . . . . . . . . . . . . . . . . . . . .   9
-   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .   9
-   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .   9
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .   9
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  10
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
+     3.1.  The "udp-server-grouping" Grouping  . . . . . . . . . . .   6
+     3.2.  Example Usage . . . . . . . . . . . . . . . . . . . . . .   6
+     3.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   7
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
+     5.1.  URI . . . . . . . . . . . . . . . . . . . . . . . . . . .   9
+     5.2.  YANG module name  . . . . . . . . . . . . . . . . . . . .  10
+   6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  10
+   7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .  11
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
 
 1.  Introduction
 
@@ -107,8 +109,6 @@ Table of Contents
 
 
 
-
-
 Huang Feng, et al.      Expires 28 November 2024                [Page 2]
 
 Internet-Draft         udp-client-server-grouping               May 2024
@@ -122,7 +122,22 @@ Internet-Draft         udp-client-server-grouping               May 2024
        +-- local-address?    inet:ip-address {local-binding-supported}?
        +-- local-port?       inet:port-number {local-binding-supported}?
 
-2.2.  YANG Module
+2.2.  Example Usage
+
+   This section presents an example of usage of the "udp-client-
+   grouping" grouping.
+
+   <!-- The outermost element below doesn't exist in the data model. -->
+   <!--  It simulates if the "grouping" were a "container" instead.  -->
+
+   <udp-client xmlns="urn:ietf:params:xml:ns:yang:ietf-udp-client">
+     <remote-address>www.example.com</remote-address>
+     <remote-port>10000</remote-port>
+     <local-address>192.0.2.2</local-address>
+     <local-port>12345</local-port>
+   </udp-client>
+
+2.3.  YANG Module
 
    This module imports types defined in [RFC6991].
 
@@ -148,6 +163,13 @@ Internet-Draft         udp-client-server-grouping               May 2024
                   Pierre Francois
                   <mailto:pierre.francois@insa-lyon.fr>";
 
+
+
+Huang Feng, et al.      Expires 28 November 2024                [Page 3]
+
+Internet-Draft         udp-client-server-grouping               May 2024
+
+
      description
        "Defines a generic grouping for UDP-based client applications.
 
@@ -162,13 +184,6 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
        This version of this YANG module is part of RFC-to-be; see the RFC
        itself for full legal notices.";
-
-
-
-Huang Feng, et al.      Expires 28 November 2024                [Page 3]
-
-Internet-Draft         udp-client-server-grouping               May 2024
-
 
      revision 2024-05-27 {
        description
@@ -203,6 +218,14 @@ Internet-Draft         udp-client-server-grouping               May 2024
          description
            "The IP address or hostname of the remote UDP server.
            If a domain name is configured, then the DNS resolution should
+
+
+
+Huang Feng, et al.      Expires 28 November 2024                [Page 4]
+
+Internet-Draft         udp-client-server-grouping               May 2024
+
+
            happen on each connection attempt. If the DNS resolution
            results in multiple IP addresses, the IP addresses
            are tried according to local preference order until
@@ -218,13 +241,6 @@ Internet-Draft         udp-client-server-grouping               May 2024
            value is used so that importing modules may 'refine' it with
            the appropriate default port number value.";
        }
-
-
-
-Huang Feng, et al.      Expires 28 November 2024                [Page 4]
-
-Internet-Draft         udp-client-server-grouping               May 2024
-
 
        leaf local-address {
          if-feature "local-binding-supported";
@@ -256,6 +272,16 @@ Internet-Draft         udp-client-server-grouping               May 2024
    The "ietf-udp-server" YANG module defines the "udp-server-grouping"
    grouping for configuring UDP servers.
 
+
+
+
+
+
+Huang Feng, et al.      Expires 28 November 2024                [Page 5]
+
+Internet-Draft         udp-client-server-grouping               May 2024
+
+
 3.1.  The "udp-server-grouping" Grouping
 
    The following tree diagram [RFC8340] illustrates the structure of
@@ -268,19 +294,53 @@ Internet-Draft         udp-client-server-grouping               May 2024
           +-- local-address    inet:ip-address
           +-- local-port?      inet:port-number
 
-3.2.  YANG Module
+3.2.  Example Usage
 
-   The "ietf-udp-server" imports types defined in [RFC6991].
+   This section presents two examples of usage of the "udp-server-
+   grouping" grouping.  This example shows an example of a server
+   configured for listening to a IPv4 address:
+
+   <!-- The outermost element below doesn't exist in the data model. -->
+   <!--  It simulates if the "grouping" were a "container" instead.  -->
+
+   <udp-server xmlns="urn:ietf:params:xml:ns:yang:ietf-udp-server">
+     <local-bind>
+       <local-address>192.0.2.2</local-address>
+       <local-port>49152</local-port>
+     </local-bind>
+   </udp-server>
+
+   This example shows an example of a server configured to listen to an
+   IPv4 and IPv6 together:
+
+   <!-- The outermost element below doesn't exist in the data model. -->
+   <!--  It simulates if the "grouping" were a "container" instead.  -->
+
+   <udp-server xmlns="urn:ietf:params:xml:ns:yang:ietf-udp-server">
+     <local-bind>
+       <local-address>192.0.2.2</local-address>
+       <local-port>49152</local-port>
+     </local-bind>
+     <local-bind>
+       <local-address>2001:DB8::0</local-address>
+       <local-port>49153</local-port>
+     </local-bind>
+   </udp-server>
 
 
 
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 5]
+
+Huang Feng, et al.      Expires 28 November 2024                [Page 6]
 
 Internet-Draft         udp-client-server-grouping               May 2024
 
+
+3.3.  YANG Module
+
+   The "ietf-udp-server" imports types defined in [RFC6991].
 
    <CODE BEGINS> file "ietf-udp-server@2024-05-27.yang"
    module ietf-udp-server {
@@ -326,17 +386,17 @@ Internet-Draft         udp-client-server-grouping               May 2024
          "RFC-to-be: YANG Grouping for UDP Clients and UDP Servers";
      }
 
-     grouping udp-server-grouping {
-       description
-         "Provides a reusable grouping for configuring a UDP server.
 
 
 
-
-Huang Feng, et al.      Expires 28 November 2024                [Page 6]
+Huang Feng, et al.      Expires 28 November 2024                [Page 7]
 
 Internet-Draft         udp-client-server-grouping               May 2024
 
+
+     grouping udp-server-grouping {
+       description
+         "Provides a reusable grouping for configuring a UDP server.
 
          Note that this grouping uses fairly typical descendant
          node names such that a stack of 'uses' statements will
@@ -378,7 +438,6 @@ Internet-Draft         udp-client-server-grouping               May 2024
              application level data model may 'refine' it with
              an application specific default port number value.";
          }
-
        }
      }
    }
@@ -386,10 +445,7 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-
-
-
-Huang Feng, et al.      Expires 28 November 2024                [Page 7]
+Huang Feng, et al.      Expires 28 November 2024                [Page 8]
 
 Internet-Draft         udp-client-server-grouping               May 2024
 
@@ -445,7 +501,7 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 8]
+Huang Feng, et al.      Expires 28 November 2024                [Page 9]
 
 Internet-Draft         udp-client-server-grouping               May 2024
 
@@ -501,7 +557,7 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 9]
+Huang Feng, et al.      Expires 28 November 2024               [Page 10]
 
 Internet-Draft         udp-client-server-grouping               May 2024
 
@@ -557,7 +613,7 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024               [Page 10]
+Huang Feng, et al.      Expires 28 November 2024               [Page 11]
 
 Internet-Draft         udp-client-server-grouping               May 2024
 
@@ -613,4 +669,4 @@ Authors' Addresses
 
 
 
-Huang Feng, et al.      Expires 28 November 2024               [Page 11]
+Huang Feng, et al.      Expires 28 November 2024               [Page 12]

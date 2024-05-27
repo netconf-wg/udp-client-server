@@ -119,6 +119,23 @@ module: ietf-udp-client
           </t>
       </section>
 
+      <section anchor="example-client" title="Example Usage">
+        <t>This section presents an example of usage of the "udp-client-grouping"
+        grouping.</t>
+
+        <sourcecode type="xml"><![CDATA[
+<!-- The outermost element below doesn't exist in the data model. -->
+<!--  It simulates if the "grouping" were a "container" instead.  -->
+
+<udp-client xmlns="urn:ietf:params:xml:ns:yang:ietf-udp-client">
+  <remote-address>www.example.com</remote-address>
+  <remote-port>10000</remote-port>
+  <local-address>192.0.2.2</local-address>
+  <local-port>12345</local-port>
+</udp-client>
+    ]]></sourcecode>
+      </section>
+
       <section anchor="udp-client-ym" title="YANG Module">
         <t>This module imports types defined in <xref target="RFC6991"/>.</t>
 
@@ -258,6 +275,44 @@ module: ietf-udp-server
           ]]></artwork>
             </figure>
         </t>
+      </section>
+
+      <section anchor="example-server" title="Example Usage">
+        <t>This section presents two examples of usage of the "udp-server-grouping"
+        grouping. This example shows an example of a server configured for listening
+        to a IPv4 address:</t>
+
+        <sourcecode type="xml"><![CDATA[
+<!-- The outermost element below doesn't exist in the data model. -->
+<!--  It simulates if the "grouping" were a "container" instead.  -->
+
+<udp-server xmlns="urn:ietf:params:xml:ns:yang:ietf-udp-server">
+  <local-bind>
+    <local-address>192.0.2.2</local-address>
+    <local-port>49152</local-port>
+  </local-bind>
+</udp-server>
+    ]]></sourcecode>
+
+        <t>This example shows an example of a server configured to listen to an IPv4 and
+        IPv6 together:</t>
+
+        <sourcecode type="xml"><![CDATA[
+<!-- The outermost element below doesn't exist in the data model. -->
+<!--  It simulates if the "grouping" were a "container" instead.  -->
+
+<udp-server xmlns="urn:ietf:params:xml:ns:yang:ietf-udp-server">
+  <local-bind>
+    <local-address>192.0.2.2</local-address>
+    <local-port>49152</local-port>
+  </local-bind>
+  <local-bind>
+    <local-address>2001:DB8::0</local-address>
+    <local-port>49153</local-port>
+  </local-bind>
+</udp-server>
+    ]]></sourcecode>
+
       </section>
 
       <section anchor="udp-server-ym" title="YANG Module">
