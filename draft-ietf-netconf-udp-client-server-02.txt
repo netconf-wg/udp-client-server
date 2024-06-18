@@ -5,9 +5,9 @@
 Network Working Group                                      A. Huang Feng
 Internet-Draft                                               P. Francois
 Intended status: Standards Track                               INSA-Lyon
-Expires: 28 November 2024                                      K. Watsen
+Expires: 19 December 2024                                      K. Watsen
                                                          Watsen Networks
-                                                             27 May 2024
+                                                            17 June 2024
 
 
              YANG Groupings for UDP Clients and UDP Servers
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 28 November 2024.
+   This Internet-Draft will expire on 19 December 2024.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 1]
+Huang Feng, et al.      Expires 19 December 2024                [Page 1]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -86,7 +86,7 @@ Table of Contents
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  10
      7.1.  Normative References  . . . . . . . . . . . . . . . . . .  10
      7.2.  Informative References  . . . . . . . . . . . . . . . . .  11
-   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  12
+   Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  11
 
 1.  Introduction
 
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 2]
+Huang Feng, et al.      Expires 19 December 2024                [Page 2]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
    module: ietf-udp-client
@@ -165,9 +165,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 3]
+Huang Feng, et al.      Expires 19 December 2024                [Page 3]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
      description
@@ -221,9 +221,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 4]
+Huang Feng, et al.      Expires 19 December 2024                [Page 4]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
            happen on each connection attempt. If the DNS resolution
@@ -277,9 +277,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 5]
+Huang Feng, et al.      Expires 19 December 2024                [Page 5]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
 3.1.  The "udp-server-grouping" Grouping
@@ -333,9 +333,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 6]
+Huang Feng, et al.      Expires 19 December 2024                [Page 6]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
 3.3.  YANG Module
@@ -389,9 +389,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 7]
+Huang Feng, et al.      Expires 19 December 2024                [Page 7]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
      grouping udp-server-grouping {
@@ -445,9 +445,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 8]
+Huang Feng, et al.      Expires 19 December 2024                [Page 8]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
 4.  Security Considerations
@@ -501,9 +501,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024                [Page 9]
+Huang Feng, et al.      Expires 19 December 2024                [Page 9]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
    URI: urn:ietf:params:xml:ns:yang:ietf-udp-server
@@ -557,9 +557,9 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 
 
-Huang Feng, et al.      Expires 28 November 2024               [Page 10]
+Huang Feng, et al.      Expires 19 December 2024               [Page 10]
 
-Internet-Draft         udp-client-server-grouping               May 2024
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
    [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
@@ -602,37 +602,6 @@ Internet-Draft         udp-client-server-grouping               May 2024
 
 7.2.  Informative References
 
-   [I-D.ietf-netconf-tls-client-server]
-              Watsen, K., "YANG Groupings for TLS Clients and TLS
-              Servers", Work in Progress, Internet-Draft, draft-ietf-
-              netconf-tls-client-server-41, 16 March 2024,
-              <https://datatracker.ietf.org/doc/html/draft-ietf-netconf-
-              tls-client-server-41>.
-
-
-
-
-
-Huang Feng, et al.      Expires 28 November 2024               [Page 11]
-
-Internet-Draft         udp-client-server-grouping               May 2024
-
-
-   [RFC8085]  Eggert, L., Fairhurst, G., and G. Shepherd, "UDP Usage
-              Guidelines", BCP 145, RFC 8085, DOI 10.17487/RFC8085,
-              March 2017, <https://www.rfc-editor.org/info/rfc8085>.
-
-   [RFC9147]  Rescorla, E., Tschofenig, H., and N. Modadugu, "The
-              Datagram Transport Layer Security (DTLS) Protocol Version
-              1.3", RFC 9147, DOI 10.17487/RFC9147, April 2022,
-              <https://www.rfc-editor.org/info/rfc9147>.
-
-   [RFC9325]  Sheffer, Y., Saint-Andre, P., and T. Fossati,
-              "Recommendations for Secure Use of Transport Layer
-              Security (TLS) and Datagram Transport Layer Security
-              (DTLS)", BCP 195, RFC 9325, DOI 10.17487/RFC9325, November
-              2022, <https://www.rfc-editor.org/info/rfc9325>.
-
 Authors' Addresses
 
    Alex Huang Feng
@@ -640,6 +609,13 @@ Authors' Addresses
    Lyon
    France
    Email: alex.huang-feng@insa-lyon.fr
+
+
+
+
+Huang Feng, et al.      Expires 19 December 2024               [Page 11]
+
+Internet-Draft         udp-client-server-grouping              June 2024
 
 
    Pierre Francois
@@ -669,4 +645,28 @@ Authors' Addresses
 
 
 
-Huang Feng, et al.      Expires 28 November 2024               [Page 12]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Huang Feng, et al.      Expires 19 December 2024               [Page 12]
