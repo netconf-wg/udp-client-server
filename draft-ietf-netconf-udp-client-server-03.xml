@@ -141,7 +141,7 @@ module: ietf-udp-client
 
           <t><figure>
               <artwork><![CDATA[
-<CODE BEGINS> file "ietf-udp-client@2024-05-27.yang"
+<CODE BEGINS> file "ietf-udp-client@2024-06-27.yang"
 module ietf-udp-client {
   yang-version 1.1;
   namespace
@@ -178,16 +178,16 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-05-27 {
+  revision 2024-06-27 {
     description
       "Initial revision";
     reference
-      "RFC-to-be: YANG Grouping for UDP Clients and UDP Servers";
+      "RFC-to-be: YANG Groupings for UDP Clients and UDP Servers";
   }
 
   feature local-binding-supported {
     description
-      "Indicates that the UDP server supports configuring local
+      "Indicates that the UDP client supports configuring local
        bindings (i.e., the local address and local port) for
        UDP clients.";
   }
@@ -231,11 +231,10 @@ module ietf-udp-client {
       if-feature "local-binding-supported";
       type inet:ip-address;
       description
-        "The local IP address/interface to bind to when sending UDP
+        "The local IP address to bind to when sending UDP
         messages to the remote server. INADDR_ANY ('0.0.0.0') or
-        INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') MAY be used to
-        explicitly indicate the implicit default, that the server
-        can bind to any IPv4 or IPv6 address.";
+        INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
+        so, that the server can bind to any IPv4 or IPv6 address.";
     }
 
     leaf local-port {
@@ -243,10 +242,8 @@ module ietf-udp-client {
       type inet:port-number;
       default "0";
       description
-        "The local IP port number to bind to when sending UDP
-        messages to the remote server. The port number '0',
-        which is the default value, indicates that any available
-        local port number may be used.";
+        "The local port number to bind to when sending UDP
+        messages to the remote server.";
     }
   }
 }
@@ -307,7 +304,7 @@ module: ietf-udp-server
     <local-port>49152</local-port>
   </local-bind>
   <local-bind>
-    <local-address>2001:DB8::0</local-address>
+    <local-address>2001:db8::0</local-address>
     <local-port>49153</local-port>
   </local-bind>
 </udp-server>
@@ -320,7 +317,7 @@ module: ietf-udp-server
 
         <t><figure>
           <artwork><![CDATA[
-<CODE BEGINS> file "ietf-udp-server@2024-05-27.yang"
+<CODE BEGINS> file "ietf-udp-server@2024-06-27.yang"
 module ietf-udp-server {
   yang-version 1.1;
   namespace
@@ -357,11 +354,11 @@ module ietf-udp-server {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-05-27 {
+  revision 2024-06-27 {
     description
       "Initial revision";
     reference
-      "RFC-to-be: YANG Grouping for UDP Clients and UDP Servers";
+      "RFC-to-be: YANG Groupings for UDP Clients and UDP Servers";
   }
 
   grouping udp-server-grouping {
@@ -419,41 +416,45 @@ module ietf-udp-server {
 
     <section anchor="security" title="Security Considerations">
 
+      <t>This section uses the template described in Section 3.7 of
+      <xref target="I-D.ietf-netmod-rfc8407bis"/>.</t>
+
       <t>The YANG module specified in this document defines a schema for data
         that is designed to be accessed via network management protocols such
-        as NETCONF <xref target="RFC6241"/> or RESTCONF <xref target="RFC8040"/>.
-        The lowest NETCONF layer is the secure transport layer, and the
-        mandatory-to-implement secure transport is Secure Shell (SSH) <xref target="RFC6242"/>.
-        The lowest RESTCONF layer is HTTPS, and the mandatory-to-implement secure transport
-        is TLS <xref target="RFC8446"/>.
+        as NETCONF <xref target="RFC6241"/> or RESTCONF <xref target="RFC8040"/>. These network management
+        protocols are required to use a secure transport layer and mutual
+        authentication, e.g., SSH <xref target="RFC6242"/> without the "none" authentication
+        option, Transport Layer Security (TLS) <xref target="RFC8446"/> with mutual X.509
+        authentication, and HTTPS with HTTP authentication (Section 11 of
+        <xref target="RFC9110"/>).
       </t>
 
-      <t>The Network Configuration Access Control Model (NACM) <xref target="RFC8341"/> provides
-      the means to restrict access for particular NETCONF or RESTCONF users to a preconfigured
-      subset of all available NETCONF or RESTCONF protocol operations and content.
+      <t>The Network Configuration Access Control Model (NACM) <xref target="RFC8341"/>
+        provides the means to restrict access for particular NETCONF or
+        RESTCONF users to a preconfigured subset of all available NETCONF or
+        RESTCONF protocol operations and content.
       </t>
 
-      <t>Since the module in this document only define groupings, these considerations are
-      primarily for the designers of other modules that use these groupings.</t>
+      <t>The YANG module defines a set of identities, types, and
+        groupings. These nodes are intended to be reused by other YANG
+        modules. The module by itself does not expose any data nodes that
+        are writable, data nodes that contain read-only state, or RPCs.
+        As such, there are no additional security issues related to
+        the YANG module that need to be considered.
+      </t>
 
-      <t>None of the readable data nodes defined in this YANG module are considered sensitive
-      or vulnerable in network environments. The NACM "default-deny-all" extension has not
-      been set for any data nodes defined in this module.</t>
-
-      <t>None of the writable data nodes defined in this YANG module are considered sensitive
-      or vulnerable in network environments. The NACM "default-deny-write" extension has not
-      been set for any data nodes defined in this module.</t>
-
-      <t>This module does not define any RPCs, actions, or notifications, and thus the security
-      consideration for such is not provided here.</t>
-
+      <t>Modules that use the groupings that are defined in this document
+        should identify the corresponding security considerations. For
+        example, reusing some of these groupings will expose privacy-related
+        information (e.g., 'node-example').
+      </t>
     </section>
 
     <section anchor="IANA_Considerations" title="IANA Considerations">
       <t>This document describes the URIs from IETF
       XML Registry and the registration of a two new YANG module names</t>
       <section title="URI">
-        <t>IANA is requested to assign two new URI from the <xref
+        <t>IANA is requested to assign two new URIs from the <xref
         target="RFC3688">IETF XML Registry</xref>. The following two URIs are
         suggested:</t>
 
@@ -473,9 +474,9 @@ XML: N/A; the requested URI is an XML namespace.]]></artwork>
       </section>
 
       <section title="YANG module name">
-        <t>This document also requests two new YANG module names in the
-        <xref target="RFC8342">YANG Module Names registry</xref> with the
-        following suggestions:</t>
+        <t>This document also requests IANA to register the following YANG modules in the
+        <xref target="RFC8342">YANG Module Names registry</xref> within the "YANG Parameters"
+        registry group:</t>
 
         <t><figure>
             <artwork align="left"><![CDATA[
@@ -505,22 +506,24 @@ reference: RFC-to-be]]></artwork>
 
   <back>
     <references title="Normative References">
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.768.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6241.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6242.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.6991.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.7950.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8341.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8040.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8340.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8342.xml"?>
-      <?rfc include="http://xml.resource.org/public/rfc/bibxml/reference.RFC.8446.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.768.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6241.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6242.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6991.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.7950.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8341.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8040.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8340.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8342.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8446.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.9110.xml"?>
+      <?rfc include="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-netmod-rfc8407bis.xml"?>
     </references>
 
-    <references title="Informative References">
-    </references>
+    <!-- <references title="Informative References">
+    </references> -->
   </back>
 </rfc>
