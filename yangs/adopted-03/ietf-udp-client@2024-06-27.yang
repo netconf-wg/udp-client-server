@@ -90,7 +90,7 @@ module ietf-udp-client {
         "The local IP address to bind to when sending UDP
         messages to the remote server. INADDR_ANY ('0.0.0.0') or
         INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
-        so, that the server can bind to any IPv4 or IPv6 address.";
+        so that the server can bind to any IPv4 or IPv6 address.";
     }
 
     leaf local-port {
