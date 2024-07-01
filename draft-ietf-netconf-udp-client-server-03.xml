@@ -74,7 +74,7 @@
       </address>
     </author>
 
-    <date day="27" month="June" year="2024"/>
+    <date day="1" month="July" year="2024"/>
 
     <abstract>
       <t>This document defines two YANG 1.1 modules to
@@ -220,11 +220,8 @@ module ietf-udp-client {
 
     leaf remote-port {
       type inet:port-number;
-      default "0";
       description
-        "The port number of the remote UDP server. An invalid default
-        value is used so that importing modules may 'refine' it with
-        the appropriate default port number value.";
+        "The port number of the remote UDP server.";
     }
 
     leaf local-address {
@@ -240,7 +237,6 @@ module ietf-udp-client {
     leaf local-port {
       if-feature "local-binding-supported";
       type inet:port-number;
-      default "0";
       description
         "The local port number to bind to when sending UDP
         messages to the remote server.";
@@ -397,13 +393,9 @@ module ietf-udp-server {
 
       leaf local-port {
         type inet:port-number;
-        default "0";
         description
           "The local port number to listen on for incoming UDP
-          messages.  An invalid default value (0)
-          is used (instead of 'mandatory true') so that an
-          application level data model may 'refine' it with
-          an application specific default port number value.";
+          messages.";
       }
     }
   }

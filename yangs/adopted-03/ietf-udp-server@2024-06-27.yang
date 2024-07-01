@@ -77,13 +77,9 @@ module ietf-udp-server {
 
       leaf local-port {
         type inet:port-number;
-        default "0";
         description
           "The local port number to listen on for incoming UDP
-          messages.  An invalid default value (0)
-          is used (instead of 'mandatory true') so that an
-          application level data model may 'refine' it with
-          an application specific default port number value.";
+          messages.";
       }
     }
   }

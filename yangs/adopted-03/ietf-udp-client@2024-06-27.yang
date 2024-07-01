@@ -76,11 +76,8 @@ module ietf-udp-client {
 
     leaf remote-port {
       type inet:port-number;
-      default "0";
       description
-        "The port number of the remote UDP server. An invalid default
-        value is used so that importing modules may 'refine' it with
-        the appropriate default port number value.";
+        "The port number of the remote UDP server.";
     }
 
     leaf local-address {
@@ -96,7 +93,6 @@ module ietf-udp-client {
     leaf local-port {
       if-feature "local-binding-supported";
       type inet:port-number;
-      default "0";
       description
         "The local port number to bind to when sending UDP
         messages to the remote server.";

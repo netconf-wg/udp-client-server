@@ -5,9 +5,9 @@
 Network Working Group                                      A. Huang Feng
 Internet-Draft                                               P. Francois
 Intended status: Standards Track                               INSA-Lyon
-Expires: 29 December 2024                                      K. Watsen
+Expires: 2 January 2025                                        K. Watsen
                                                          Watsen Networks
-                                                            27 June 2024
+                                                             1 July 2024
 
 
              YANG Groupings for UDP Clients and UDP Servers
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 29 December 2024.
+   This Internet-Draft will expire on 2 January 2025.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 1]
+Huang Feng, et al.       Expires 2 January 2025                 [Page 1]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -78,7 +78,7 @@ Table of Contents
      3.1.  The "udp-server-grouping" Grouping  . . . . . . . . . . .   5
      3.2.  Example Usage . . . . . . . . . . . . . . . . . . . . . .   6
      3.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   6
-   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   9
+   4.  Security Considerations . . . . . . . . . . . . . . . . . . .   8
    5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .   9
      5.1.  URI . . . . . . . . . . . . . . . . . . . . . . . . . . .   9
      5.2.  YANG module name  . . . . . . . . . . . . . . . . . . . .  10
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 2]
+Huang Feng, et al.       Expires 2 January 2025                 [Page 2]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
    module: ietf-udp-client
@@ -165,9 +165,9 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 3]
+Huang Feng, et al.       Expires 2 January 2025                 [Page 3]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
      description
@@ -221,9 +221,9 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 4]
+Huang Feng, et al.       Expires 2 January 2025                 [Page 4]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
            happen on each connection attempt. If the DNS resolution
@@ -235,11 +235,8 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
        leaf remote-port {
          type inet:port-number;
-         default "0";
          description
-           "The port number of the remote UDP server. An invalid default
-           value is used so that importing modules may 'refine' it with
-           the appropriate default port number value.";
+           "The port number of the remote UDP server.";
        }
 
        leaf local-address {
@@ -255,7 +252,6 @@ Internet-Draft         udp-client-server-grouping              June 2024
        leaf local-port {
          if-feature "local-binding-supported";
          type inet:port-number;
-         default "0";
          description
            "The local port number to bind to when sending UDP
            messages to the remote server.";
@@ -277,9 +273,13 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 5]
+
+
+
+
+Huang Feng, et al.       Expires 2 January 2025                 [Page 5]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
    module: ietf-udp-server
@@ -333,9 +333,9 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 6]
+Huang Feng, et al.       Expires 2 January 2025                 [Page 6]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
    <CODE BEGINS> file "ietf-udp-server@2024-06-27.yang"
@@ -389,9 +389,9 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 7]
+Huang Feng, et al.       Expires 2 January 2025                 [Page 7]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
          Note that this grouping uses fairly typical descendant
@@ -426,34 +426,29 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
          leaf local-port {
            type inet:port-number;
-           default "0";
            description
              "The local port number to listen on for incoming UDP
-             messages.  An invalid default value (0)
-             is used (instead of 'mandatory true') so that an
-             application level data model may 'refine' it with
-             an application specific default port number value.";
+             messages.";
          }
        }
      }
    }
    <CODE ENDS>
 
-
-
-
-
-
-
-Huang Feng, et al.      Expires 29 December 2024                [Page 8]
-
-Internet-Draft         udp-client-server-grouping              June 2024
-
-
 4.  Security Considerations
 
    This section uses the template described in Section 3.7 of
    [I-D.ietf-netmod-rfc8407bis].
+
+
+
+
+
+
+Huang Feng, et al.       Expires 2 January 2025                 [Page 8]
+
+Internet-Draft         udp-client-server-grouping              July 2024
+
 
    The YANG module specified in this document defines a schema for data
    that is designed to be accessed via network management protocols such
@@ -501,9 +496,14 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024                [Page 9]
+
+
+
+
+
+Huang Feng, et al.       Expires 2 January 2025                 [Page 9]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
 5.2.  YANG module name
@@ -557,9 +557,9 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024               [Page 10]
+Huang Feng, et al.       Expires 2 January 2025                [Page 10]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
    [RFC6242]  Wasserman, M., "Using the NETCONF Protocol over Secure
@@ -613,9 +613,9 @@ Internet-Draft         udp-client-server-grouping              June 2024
 
 
 
-Huang Feng, et al.      Expires 29 December 2024               [Page 11]
+Huang Feng, et al.       Expires 2 January 2025                [Page 11]
 
-Internet-Draft         udp-client-server-grouping              June 2024
+Internet-Draft         udp-client-server-grouping              July 2024
 
 
               netmod-rfc8407bis-12, 21 June 2024,
@@ -669,4 +669,4 @@ Authors' Addresses
 
 
 
-Huang Feng, et al.      Expires 29 December 2024               [Page 12]
+Huang Feng, et al.       Expires 2 January 2025                [Page 12]
