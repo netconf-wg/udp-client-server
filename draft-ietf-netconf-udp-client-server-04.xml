@@ -74,7 +74,7 @@
       </address>
     </author>
 
-    <date day="16" month="September" year="2024"/>
+    <date day="4" month="October" year="2024"/>
 
     <abstract>
       <t>This document defines two YANG 1.1 modules to
@@ -93,20 +93,43 @@
   <middle>
     <section anchor="introduction" title="Introduction">
       <t>This document defines two YANG 1.1 <xref target="RFC7950"/> modules to support
-      the configuration of UDP clients and UDP servers <xref target="RFC768"/>, either
-      as standalone or in conjunction with configuration of other layers.</t>
+      the configuration of UDP clients and UDP servers <xref target="RFC768"/>.
+      The data models defined by the these modules may be used directly (e.g., to define
+      a specific UDP client or UDP server) or in conjunction with the configuration defined
+      for higher level protocols that depend on UDP.</t>
     </section>
 
     <section anchor="udp-client" title='The "ietf-udp-client" Module'>
-      <t>The "ietf-udp-client" YANG module defines the "udp-client-grouping"
+      <t>This section defines a YANG 1.1 module called "ietf-udp-client".
+      This YANG module defines the "udp-client-grouping"
       grouping for configuring UDP clients with remote server information.</t>
+      
+      <t><xref target="udp-client-overview"/> provides an overview of the
+      YANG module for configuring UDP clients. An example of usage is illustrated
+      in <xref target="example-client"/> and <xref target="udp-client-ym"/> defines the
+      YANG module itself.</t>
 
-      <section anchor="udp-client-grouping" title='The "udp-client-grouping" Grouping'>
-        <t>The following tree diagram <xref target="RFC8340"/> illustrates the tree
-        structure of the "udp-client-grouping" grouping:</t>
+      <section anchor="udp-client-overview" title='Data Model Overview'>
+        <t>This section provides an overview of the features and groupings defined in the
+        "ietf-udp-client" YANG module.
+        </t>
+        <section title="Features">
+          <t>The "ietf-udp-client" module defines only one "feature" statements:</t>
+          <sourcecode type="yangtree"><![CDATA[
+Features:
+  +-- local-binding-supported
+]]></sourcecode>
+          <t>This "local-binding-supported" feature indicates that the client supports
+            configuring local bindings (i.e., the local address and local port) for UDP clients.</t>
+          
+          <t>The diagram above uses syntax that is similar to but not defined in
+          <xref target="RFC8340"/>.</t>
+        </section>
+        <section anchor="udp-client-grouping" title='The "udp-client-grouping" Grouping'>
+          <t>The following tree diagram <xref target="RFC8340"/> illustrates the tree
+          structure of the "udp-client-grouping" grouping:</t>
 
-          <t><figure>
-              <artwork><![CDATA[
+          <sourcecode type="yangtree"><![CDATA[
 module: ietf-udp-client
 
   grouping udp-client-grouping:
@@ -114,16 +137,29 @@ module: ietf-udp-client
     +-- remote-port?      inet:port-number
     +-- local-address?    inet:ip-address {local-binding-supported}?
     +-- local-port?       inet:port-number {local-binding-supported}?
-          ]]></artwork>
-            </figure>
-          </t>
+]]></sourcecode>
 
-          <t>The "remote-port" and "local-port" leaves are defined without any
-          "default" or "mandatory" statements in the "udp-client-grouping" grouping.
-          YANG models using this grouping SHOULD refine the grouping with a "default"
-          statement, usually with the port allocated by IANA, or a "mandatory" statement,
-          if the ports needs to be always present.
-          </t>
+          <t>Comments:</t>
+          <ul>
+            <li>The "remote-address" node, which is mandatory, may be configured as
+              an IPv4 address, an IPv6 address, or a hostname.</li>
+            <li>The "remote-port" leaf is defined with neither a "default"
+              nor a "mandatory" statement.  YANG modules using this grouping
+              SHOULD refine the grouping with a "default" statement,
+              when the port number is well-known (e.g., a port number allocated by IANA),
+              or with a "mandatory" statement, if a port number needs to always be configured.
+              The SHOULD can be ignored when the port number is neither
+              well-known nor mandatory to configure, such as might be the case when this grouping
+              is used by another grouping.</li>
+            <li>The "local-address" node, which is enabled by the "local-binding-supported"
+              feature, may be configured as
+              an IPv4 address, an IPv6 address, or a wildcard value.</li>
+            <li>The "local-port" node, which is enabled by the "local-binding-supported"
+              feature, is not mandatory. Its default
+              value is "0", indicating that the operating system can pick an
+              arbitrary port number.</li>
+          </ul>
+        </section>
       </section>
 
       <section anchor="example-client" title="Example Usage">
@@ -146,9 +182,7 @@ module: ietf-udp-client
       <section anchor="udp-client-ym" title="YANG Module">
         <t>This module imports types defined in <xref target="RFC6991"/>.</t>
 
-          <t><figure>
-              <artwork><![CDATA[
-<CODE BEGINS> file "ietf-udp-client@2024-06-27.yang"
+        <sourcecode name="ietf-udp-client@2024-09-04" type="yang" markers="true"><![CDATA[
 module ietf-udp-client {
   yang-version 1.1;
   namespace
@@ -185,7 +219,7 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-06-27 {
+  revision 2024-09-04 {
     description
       "Initial revision";
     reference
@@ -244,50 +278,68 @@ module ietf-udp-client {
     leaf local-port {
       if-feature "local-binding-supported";
       type inet:port-number;
+      default "0";
       description
         "The local port number to bind to when sending UDP
-        messages to the remote server.";
+        messages to the remote server. The port number '0',
+        which is the default value, indicates that any available
+        local port number may be used.";
     }
   }
 }
-<CODE ENDS>]]></artwork>
-            </figure>
-          </t>
+]]></sourcecode>
       </section>
     </section>
 
     <section anchor="udp-server" title='The "ietf-udp-server" Module'>
-      <t>The "ietf-udp-server" YANG module defines the "udp-server-grouping" grouping for
+      <t>This section defines a YANG 1.1 module called "ietf-udp-server".
+      This YANG module defines the "udp-server-grouping" grouping for
       configuring UDP servers.</t>
 
-      <section anchor="udp-server-grouping" title='The "udp-server-grouping" Grouping'>
-        <t>The following tree diagram <xref target="RFC8340"/> illustrates the structure of
-        "udp-server-grouping" grouping:</t>
-        
-          <t><figure>
-              <artwork><![CDATA[
+      <t><xref target="udp-server-overview"/> provides an overview of the YANG module
+      for configuring UDP servers. An example of usage is illustrated in
+      <xref target="example-server"/> and <xref target="udp-server-ym"/> defines the YANG
+      module itself.</t>
+
+      <section anchor="udp-server-overview" title='Data Model Overview'>
+        <t>This section provides an overview of the groupings defined in the 
+        "ietf-udp-server" module.</t>
+      
+      
+        <section anchor="udp-server-grouping" title='The "udp-server-grouping" Grouping'>
+          <t>The following tree diagram <xref target="RFC8340"/> illustrates the structure of
+          "udp-server-grouping" grouping:</t>
+
+          <sourcecode type="yangtree"><![CDATA[
 module: ietf-udp-server
 
   grouping udp-server-grouping:
     +-- local-bind* [local-address]
-       +-- local-address    inet:ip-address
-       +-- local-port?      inet:port-number
-          ]]></artwork>
-            </figure>
-        </t>
+      +-- local-address    inet:ip-address
+      +-- local-port?      inet:port-number
+  ]]></sourcecode>
 
-        <t>The "local-port" leaf is defined without any
-          "default" or "mandatory" statement in the "udp-server-grouping" grouping.
-          YANG models using this grouping SHOULD refine the grouping with a "default"
-          statement, usually with the port allocated by IANA, or a "mandatory" statement,
-          if the port needs to be always present.
-        </t>
+          <t>Comments:</t>
+          <ul>
+            <li>The "local-address" node, which is mandatory, may be configured as
+              an IPv4 address, an IPv6 address, or a wildcard value.</li>
+            <li>The "local-port" leaf is defined with neither a "default" nor a
+              "mandatory" statement. YANG modules using this grouping SHOULD refine the 
+              grouping with a "default" statement, when the port number is well-known
+              (e.g., a port number allocated by IANA), or with a "mandatory" statement,
+              if a port number needs to always be configured. The SHOULD can be ignored
+              when the port number is neither well-known nor mandatory to configure, such
+              as might be the case when this grouping is used by another grouping.</li>
+          </ul>
+        </section>
       </section>
 
       <section anchor="example-server" title="Example Usage">
         <t>This section presents two examples of usage of the "udp-server-grouping"
-        grouping. This example shows an example of a server configured for listening
-        to a IPv4 address:</t>
+        grouping.</t>
+
+        <t>This example shows an example of a server configured for listening
+        to an IPv4 address:</t>
 
         <sourcecode type="xml"><![CDATA[
 <!-- The outermost element below doesn't exist in the data model. -->
@@ -325,21 +377,20 @@ module: ietf-udp-server
       <section anchor="udp-server-ym" title="YANG Module">
         <t>The "ietf-udp-server" imports types defined in <xref target="RFC6991"/>.</t>
 
-        <t><figure>
-          <artwork><![CDATA[
-<CODE BEGINS> file "ietf-udp-server@2024-06-27.yang"
+        <sourcecode name="ietf-udp-server@2024-09-04.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-server {
   yang-version 1.1;
-  namespace
-    "urn:ietf:params:xml:ns:yang:ietf-udp-server";
+  namespace "urn:ietf:params:xml:ns:yang:ietf-udp-server";
   prefix udps;
+
   import ietf-inet-types {
     prefix inet;
     reference
       "RFC 6991: Common YANG Data Types";
   }
 
-  organization "IETF NETCONF (Network Configuration) Working Group";
+  organization
+    "IETF NETCONF (Network Configuration) Working Group";
   contact
     "WG Web:   <http:/tools.ietf.org/wg/netconf/>
      WG List:  <mailto:netconf@ietf.org>
@@ -348,23 +399,22 @@ module ietf-udp-server {
                <mailto:alex.huang-feng@insa-lyon.fr>
                Pierre Francois
                <mailto:pierre.francois@insa-lyon.fr>";
-
   description
     "Defines a generic grouping for UDP-based server applications.
 
-    Copyright (c) 2024 IETF Trust and the persons identified as
-    authors of the code.  All rights reserved.
+     Copyright (c) 2024 IETF Trust and the persons identified as
+     authors of the code.  All rights reserved.
 
-    Redistribution and use in source and binary forms, with or without
-    modification, is permitted pursuant to, and subject to the license
-    terms contained in, the Revised BSD License set forth in Section
-    4.c of the IETF Trust's Legal Provisions Relating to IETF Documents
-    (https://trustee.ietf.org/license-info).
+     Redistribution and use in source and binary forms, with or without
+     modification, is permitted pursuant to, and subject to the license
+     terms contained in, the Revised BSD License set forth in Section
+     4.c of the IETF Trust's Legal Provisions Relating to IETF Documents
+     (https://trustee.ietf.org/license-info).
 
-    This version of this YANG module is part of RFC-to-be; see the RFC
-    itself for full legal notices.";
+     This version of this YANG module is part of RFC-to-be; see the RFC
+     itself for full legal notices.";
 
-  revision 2024-06-27 {
+  revision 2024-09-04 {
     description
       "Initial revision";
     reference
@@ -374,49 +424,44 @@ module ietf-udp-server {
   grouping udp-server-grouping {
     description
       "Provides a reusable grouping for configuring a UDP server.
-      
-      Note that this grouping uses fairly typical descendant
-      node names such that a stack of 'uses' statements will
-      have name conflicts.  It is intended that the consuming
-      data model will resolve the issue (e.g., by wrapping
-      the 'uses' statement in a container called
-      'udp-server-parameters').  This model purposely does
-      not do this itself so as to provide maximum flexibility
-      to consuming models.";
 
+       Note that this grouping uses fairly typical descendant
+       node names such that a stack of 'uses' statements will
+       have name conflicts.  It is intended that the consuming
+       data model will resolve the issue (e.g., by wrapping
+       the 'uses' statement in a container called
+       'udp-server-parameters').  This model purposely does
+       not do this itself so as to provide maximum flexibility
+       to consuming models.";
     list local-bind {
-      key local-address;
+      key "local-address";
       min-elements 1;
-      description 
+      description
         "A list of bind (listen) points for this server
-        instance.  A server instance may have multiple
-        bind points to support, e.g., the same port in
-        different address families or different ports
-        in the same address family.";
-
+         instance.  A server instance may have multiple
+         bind points to support, e.g., the same port in
+         different address families or different ports
+         in the same address family.";
       leaf local-address {
         type inet:ip-address;
         mandatory true;
         description
           "The local IP address to listen on for incoming
-          UDP messages.  To configure listening
-          on all IPv4 addresses the value must be '0.0.0.0'
-          (INADDR_ANY).  To configure listening on all IPv6
-          addresses the value must be '::' (INADDR6_ANY).";
+           UDP messages.  To configure listening
+           on all IPv4 addresses the value must be '0.0.0.0'
+           (INADDR_ANY).  To configure listening on all IPv6
+           addresses the value must be '::' (INADDR6_ANY).";
       }
-
       leaf local-port {
         type inet:port-number;
         description
           "The local port number to listen on for incoming UDP
-          messages.";
+           messages.";
       }
     }
   }
 }
-<CODE ENDS>]]></artwork>
-            </figure>
-          </t>
+]]></sourcecode>
       </section>
     </section>
 
