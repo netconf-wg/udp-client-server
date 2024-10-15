@@ -74,7 +74,7 @@
       </address>
     </author>
 
-    <date day="13" month="October" year="2024"/>
+    <date day="15" month="October" year="2024"/>
 
     <abstract>
       <t>This document defines two YANG 1.1 modules to
@@ -101,7 +101,7 @@
 
     <section anchor="udp-client" title='The "ietf-udp-client" Module'>
       <t>This section defines a YANG 1.1 module called "ietf-udp-client".
-      This YANG module defines the "udp-client-grouping"
+      This YANG module defines the "udp-client"
       grouping for configuring UDP clients with remote server information.</t>
       
       <t><xref target="udp-client-overview"/> provides an overview of the
@@ -117,26 +117,26 @@
           <t>The "ietf-udp-client" module defines only one "feature" statements:</t>
           <sourcecode type="yangtree"><![CDATA[
 Features:
-  +-- local-binding-supported
+  +-- local-binding
 ]]></sourcecode>
-          <t>This "local-binding-supported" feature indicates that the client supports
+          <t>This "local-binding" feature indicates that the client supports
             configuring local bindings (i.e., the local address and local port) for UDP clients.</t>
           
           <t>The diagram above uses syntax that is similar to but not defined in
           <xref target="RFC8340"/>.</t>
         </section>
-        <section anchor="udp-client-grouping" title='The "udp-client-grouping" Grouping'>
+        <section anchor="udp-client-grouping" title='The "udp-client" Grouping'>
           <t>The following tree diagram <xref target="RFC8340"/> illustrates the tree
-          structure of the "udp-client-grouping" grouping:</t>
+          structure of the "udp-client" grouping:</t>
 
           <sourcecode type="yangtree"><![CDATA[
 module: ietf-udp-client
 
-  grouping udp-client-grouping:
+  grouping udp-client:
     +-- remote-address    inet:host
     +-- remote-port?      inet:port-number
-    +-- local-address?    inet:ip-address {local-binding-supported}?
-    +-- local-port?       inet:port-number {local-binding-supported}?
+    +-- local-address?    inet:ip-address {local-binding}?
+    +-- local-port?       inet:port-number {local-binding}?
 ]]></sourcecode>
 
           <t>Comments:</t>
@@ -151,10 +151,10 @@ module: ietf-udp-client
               This MAY be ignored when the port number is neither
               well-known nor mandatory to configure, such as might be the case when this grouping
               is used by another grouping.</li>
-            <li>The "local-address", which is enabled by the "local-binding-supported"
+            <li>The "local-address", which is enabled by the "local-binding"
               feature, may be configured as
               an IPv4 address, an IPv6 address, or a wildcard value.</li>
-            <li>The "local-port", which is enabled by the "local-binding-supported"
+            <li>The "local-port", which is enabled by the "local-binding"
               feature, is not mandatory. Its default
               value is "0", indicating that the operating system can pick an
               arbitrary port number.</li>
@@ -163,7 +163,7 @@ module: ietf-udp-client
       </section>
 
       <section anchor="example-client" title="Example Usage">
-        <t>This section presents an example of usage of the "udp-client-grouping"
+        <t>This section presents an example of usage of the "udp-client"
         grouping.</t>
 
         <sourcecode type="xml"><![CDATA[
@@ -182,7 +182,7 @@ module: ietf-udp-client
       <section anchor="udp-client-ym" title="YANG Module">
         <t>This module imports types defined in <xref target="RFC6991"/>.</t>
 
-        <sourcecode name="ietf-udp-client@2024-10-04" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-client@2024-10-15" type="yang" markers="true"><![CDATA[
 module ietf-udp-client {
   yang-version 1.1;
   namespace
@@ -205,7 +205,7 @@ module ietf-udp-client {
                <mailto:pierre.francois@insa-lyon.fr>";
 
   description
-    "Defines a generic grouping for UDP-based clients.
+    "Defines a generic grouping for UDP-based client applications.
 
     Copyright (c) 2024 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
@@ -219,21 +219,21 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-10-04 {
+  revision 2024-10-15 {
     description
       "Initial revision";
     reference
       "RFC-to-be: YANG Groupings for UDP Clients and UDP Servers";
   }
 
-  feature local-binding-supported {
+  feature local-binding {
     description
       "Indicates that the UDP client supports configuring local
        bindings (i.e., the local address and local port) for
        UDP clients.";
   }
 
-  grouping udp-client-grouping {
+  grouping udp-client {
     description
       "A reusable grouping for configuring a UDP client.
       
@@ -266,7 +266,7 @@ module ietf-udp-client {
     }
 
     leaf local-address {
-      if-feature "local-binding-supported";
+      if-feature "local-binding";
       type inet:ip-address;
       description
         "The local IP address to bind to when sending UDP
@@ -276,7 +276,7 @@ module ietf-udp-client {
     }
 
     leaf local-port {
-      if-feature "local-binding-supported";
+      if-feature "local-binding";
       type inet:port-number;
       default "0";
       description
@@ -293,7 +293,7 @@ module ietf-udp-client {
 
     <section anchor="udp-server" title='The "ietf-udp-server" Module'>
       <t>This section defines a YANG 1.1 module called "ietf-udp-server".
-      This YANG module defines the "udp-server-grouping" grouping for
+      This YANG module defines the "udp-server" grouping for
       configuring UDP servers.</t>
 
       <t><xref target="udp-server-overview"/> provides an overview of the YANG module
@@ -306,17 +306,17 @@ module ietf-udp-client {
         "ietf-udp-server" module.</t>
       
       
-        <section anchor="udp-server-grouping" title='The "udp-server-grouping" Grouping'>
+        <section anchor="udp-server-grouping" title='The "udp-server" Grouping'>
           <t>The following tree diagram <xref target="RFC8340"/> illustrates the structure of
-          "udp-server-grouping" grouping:</t>
+          "udp-server" grouping:</t>
 
           <sourcecode type="yangtree"><![CDATA[
 module: ietf-udp-server
 
-  grouping udp-server-grouping:
+  grouping udp-server:
     +-- local-bind* [local-address]
-      +-- local-address    inet:ip-address
-      +-- local-port?      inet:port-number
+       +-- local-address    inet:ip-address
+       +-- local-port?      inet:port-number
   ]]></sourcecode>
 
           <t>Comments:</t>
@@ -335,7 +335,7 @@ module: ietf-udp-server
       </section>
 
       <section anchor="example-server" title="Example Usage">
-        <t>This section presents two examples of usage of the "udp-server-grouping"
+        <t>This section presents two examples of usage of the "udp-server"
         grouping.</t>
 
         <t>This following shows an example of a server configured for listening
@@ -377,7 +377,7 @@ module: ietf-udp-server
       <section anchor="udp-server-ym" title="YANG Module">
         <t>The "ietf-udp-server" imports types defined in <xref target="RFC6991"/>.</t>
 
-        <sourcecode name="ietf-udp-server@2024-10-04.yang" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-server@2024-10-15.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-server {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-udp-server";
@@ -400,7 +400,7 @@ module ietf-udp-server {
                Pierre Francois
                <mailto:pierre.francois@insa-lyon.fr>";
   description
-    "Defines a generic grouping for UDP-based servers.
+    "Defines a generic grouping for UDP-based server applications.
 
      Copyright (c) 2024 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
@@ -414,14 +414,14 @@ module ietf-udp-server {
      This version of this YANG module is part of RFC-to-be; see the RFC
      itself for full legal notices.";
 
-  revision 2024-10-04 {
+  revision 2024-10-15 {
     description
       "Initial revision";
     reference
       "RFC-to-be: YANG Groupings for UDP Clients and UDP Servers";
   }
 
-  grouping udp-server-grouping {
+  grouping udp-server {
     description
       "Provides a reusable grouping for configuring a UDP server.
 
