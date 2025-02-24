@@ -5,9 +5,9 @@
 Network Working Group                                      A. Huang Feng
 Internet-Draft                                               P. Francois
 Intended status: Standards Track                               INSA-Lyon
-Expires: 16 May 2025                                           K. Watsen
+Expires: 28 August 2025                                        K. Watsen
                                                          Watsen Networks
-                                                        12 November 2024
+                                                        24 February 2025
 
 
              YANG Groupings for UDP Clients and UDP Servers
@@ -15,8 +15,8 @@ Expires: 16 May 2025                                           K. Watsen
 
 Abstract
 
-   This document defines two YANG 1.1 modules to support the
-   configuration of UDP clients and UDP servers.
+   This document defines two YANG 1.1 modules with reusable groupings
+   for managing UDP clients and UDP servers.
 
 Requirements Language
 
@@ -41,11 +41,11 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 16 May 2025.
+   This Internet-Draft will expire on 28 August 2025.
 
 Copyright Notice
 
-   Copyright (c) 2024 IETF Trust and the persons identified as the
+   Copyright (c) 2025 IETF Trust and the persons identified as the
    document authors.  All rights reserved.
 
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Huang Feng, et al.         Expires 16 May 2025                  [Page 1]
+Huang Feng, et al.       Expires 28 August 2025                 [Page 1]
 
-Internet-Draft         udp-client-server-grouping          November 2024
+Internet-Draft         udp-client-server-grouping          February 2025
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -79,39 +79,39 @@ Table of Contents
      3.2.  Example Usage . . . . . . . . . . . . . . . . . . . . . .   7
      3.3.  YANG Module . . . . . . . . . . . . . . . . . . . . . . .   8
    4.  Security Considerations . . . . . . . . . . . . . . . . . . .  10
-   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  10
+   5.  IANA Considerations . . . . . . . . . . . . . . . . . . . . .  11
      5.1.  URI . . . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     5.2.  YANG module name  . . . . . . . . . . . . . . . . . . . .  11
+     5.2.  YANG Module Name  . . . . . . . . . . . . . . . . . . . .  11
    6.  Acknowledgements  . . . . . . . . . . . . . . . . . . . . . .  11
    7.  References  . . . . . . . . . . . . . . . . . . . . . . . . .  11
-     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  11
-     7.2.  Informative References  . . . . . . . . . . . . . . . . .  13
+     7.1.  Normative References  . . . . . . . . . . . . . . . . . .  12
+     7.2.  Informative References  . . . . . . . . . . . . . . . . .  12
    Authors' Addresses  . . . . . . . . . . . . . . . . . . . . . . .  13
 
 1.  Introduction
 
-   This document defines two YANG 1.1 [RFC7950] modules to support the
-   configuration of UDP clients and UDP servers [RFC768].  The data
-   models defined by these modules may be used directly (e.g., to define
-   a specific UDP client or UDP server) or in conjunction with the
-   configuration defined for higher level protocols that depend on UDP.
+   This document defines two YANG 1.1 [RFC7950] modules with reusable
+   groupings for managing UDP clients and UDP servers [RFC768].  These
+   modules may be used directly (e.g., define a specific UDP client or
+   UDP server) or in conjunction with the configuration defined for
+   higher level protocols that depend on UDP.
 
 2.  The "ietf-udp-client" Module
 
    This section defines a YANG 1.1 module called "ietf-udp-client".
-   This YANG module defines the "udp-client" grouping for configuring
-   UDP clients with remote server information.
+   This YANG module defines the "udp-client" grouping for providing UDP
+   clients with remote server information.
 
-   Section 2.1 provides an overview of the YANG module for configuring
-   UDP clients.  An example of usage is illustrated in Section 2.2 and
-   Section 2.3 defines the YANG module itself.
-
-
+   Section 2.1 provides the overview of the YANG module.  An example of
+   usage is illustrated in Section 2.2, while Section 2.3 defines the
+   YANG module itself.
 
 
-Huang Feng, et al.         Expires 16 May 2025                  [Page 2]
+
+
+Huang Feng, et al.       Expires 28 August 2025                 [Page 2]
 
-Internet-Draft         udp-client-server-grouping          November 2024
+Internet-Draft         udp-client-server-grouping          February 2025
 
 
 2.1.  Data Model Overview
@@ -121,14 +121,15 @@ Internet-Draft         udp-client-server-grouping          November 2024
 
 2.1.1.  Features
 
-   The "ietf-udp-client" module defines only one "feature" statements:
+   The "ietf-udp-client" module defines the following "feature"
+   statement:
 
    Features:
      +-- local-binding
 
-   This "local-binding" feature indicates that the client supports
-   configuring local bindings (i.e., the local address and local port)
-   for UDP clients.
+   This feature indicates that the client supports configuring local
+   bindings (i.e., the local address and local port number) for UDP
+   clients.
 
    The diagram above uses syntax that is similar to but not defined in
    [RFC8340].
@@ -146,10 +147,12 @@ Internet-Draft         udp-client-server-grouping          November 2024
        +-- local-address?    inet:ip-address {local-binding}?
        +-- local-port?       inet:port-number {local-binding}?
 
-   Comments:
+   The description of these parameters is provided below:
 
    *  The "remote-address", which is mandatory, may be configured as an
-      IPv4 address, an IPv6 address, or a hostname.
+      IPv4 address, an IPv6 address, or a hostname.  The resolved
+      address should be compatible with the local address family, if
+      also provided.
 
    *  The "remote-port" is defined with neither a "default" nor a
       "mandatory" statement.  YANG modules using this grouping SHOULD
@@ -162,21 +165,19 @@ Internet-Draft         udp-client-server-grouping          November 2024
 
 
 
-
-
-
-Huang Feng, et al.         Expires 16 May 2025                  [Page 3]
+Huang Feng, et al.       Expires 28 August 2025                 [Page 3]
 
-Internet-Draft         udp-client-server-grouping          November 2024
+Internet-Draft         udp-client-server-grouping          February 2025
 
 
    *  The "local-address", which is enabled by the "local-binding"
       feature, may be configured as an IPv4 address, an IPv6 address, or
-      a wildcard value.
+      a wildcard value.  The local address must use the same address
+      family as the configured remote address.
 
-   *  The "local-port", which is enabled by the "local-binding" feature,
-      is not mandatory.  Its default value is "0", indicating that the
-      operating system can pick an arbitrary port number.
+   *  The "local-port", which depends on the "local-binding" feature, is
+      not mandatory.  Its default value is "0", indicating that the
+      operating system can select an arbitrary port number.
 
 2.2.  Example Usage
 
@@ -197,7 +198,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
 
    This module imports types defined in [RFC6991].
 
-   <CODE BEGINS> file "ietf-udp-client@2024-10-15.yang"
+   <CODE BEGINS> file "ietf-udp-client@2025-02-24.yang"
    module ietf-udp-client {
      yang-version 1.1;
      namespace
@@ -217,19 +218,20 @@ Internet-Draft         udp-client-server-grouping          November 2024
         Authors:  Alex Huang Feng
                   <mailto:alex.huang-feng@insa-lyon.fr>
                   Pierre Francois
-                  <mailto:pierre.francois@insa-lyon.fr>";
 
 
 
-Huang Feng, et al.         Expires 16 May 2025                  [Page 4]
+Huang Feng, et al.       Expires 28 August 2025                 [Page 4]
 
-Internet-Draft         udp-client-server-grouping          November 2024
+Internet-Draft         udp-client-server-grouping          February 2025
 
+
+                  <mailto:pierre.francois@insa-lyon.fr>";
 
      description
        "Defines a generic grouping for UDP-based client applications.
 
-       Copyright (c) 2024 IETF Trust and the persons identified as
+       Copyright (c) 2025 IETF Trust and the persons identified as
        authors of the code.  All rights reserved.
 
        Redistribution and use in source and binary forms, with or without
@@ -241,7 +243,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
        This version of this YANG module is part of RFC-to-be; see the RFC
        itself for full legal notices.";
 
-     revision 2024-10-15 {
+     revision 2025-02-24 {
        description
          "Initial revision";
        reference
@@ -251,13 +253,13 @@ Internet-Draft         udp-client-server-grouping          November 2024
      feature local-binding {
        description
          "Indicates that the UDP client supports configuring local
-          bindings (i.e., the local address and local port) for
+          bindings (i.e., the local address and local port number) for
           UDP clients.";
      }
 
      grouping udp-client {
        description
-         "A reusable grouping for configuring a UDP client.
+         "A reusable grouping for UDP clients.
 
          Note that this grouping uses fairly typical descendant
          node names such that a stack of 'uses' statements will
@@ -272,17 +274,18 @@ Internet-Draft         udp-client-server-grouping          November 2024
          type inet:host;
          mandatory true;
          description
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                 [Page 5]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
            "The IP address or hostname of the remote UDP server.
            If a domain name is configured, then the DNS resolution should
-
-
-
-Huang Feng, et al.         Expires 16 May 2025                  [Page 5]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
-
-           happen on each connection attempt. If the DNS resolution
+           happen on each connection attempt, unless a previously resolved
+           address is cached and still valid. If the DNS resolution
            results in multiple IP addresses, the IP addresses
            are tried according to local preference order until
            a connection has been established or until all IP
@@ -311,7 +314,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
          default "0";
          description
            "The local port number to bind to when sending UDP
-           messages to the remote server. The port number '0',
+           datagrams to the remote server. The port number '0',
            which is the default value, indicates that any available
            local port number may be used.";
        }
@@ -325,18 +328,19 @@ Internet-Draft         udp-client-server-grouping          November 2024
    This YANG module defines the "udp-server" grouping for configuring
    UDP servers.
 
+
+
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                 [Page 6]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
    Section 3.1 provides an overview of the YANG module for configuring
    UDP servers.  An example of usage is illustrated in Section 3.2 while
    Section 3.3 defines the YANG module itself.
-
-
-
-
-
-Huang Feng, et al.         Expires 16 May 2025                  [Page 6]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
 
 3.1.  Data Model Overview
 
@@ -355,7 +359,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
           +-- local-address    inet:ip-address
           +-- local-port?      inet:port-number
 
-   Comments:
+   The description of these parameters is provided below:
 
    *  The "local-address", which is mandatory, may be configured as an
       IPv4 address, an IPv6 address, or a wildcard value.
@@ -377,6 +381,19 @@ Internet-Draft         udp-client-server-grouping          November 2024
    This following shows an example of a server configured for listening
    to an IPv4 address:
 
+
+
+
+
+
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                 [Page 7]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
    <!-- The outermost element below doesn't exist in the data model. -->
    <!--  It simulates if the "grouping" were a "container" instead.  -->
 
@@ -387,15 +404,8 @@ Internet-Draft         udp-client-server-grouping          November 2024
      </local-bind>
    </udp-server>
 
-
-
-Huang Feng, et al.         Expires 16 May 2025                  [Page 7]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
-
-   This example shows an example of a server configured to listen to an
-   IPv4 and IPv6 together:
+   This following shows an example of a server configured to listen to
+   an IPv4 and IPv6 together:
 
    <!-- The outermost element below doesn't exist in the data model. -->
    <!--  It simulates if the "grouping" were a "container" instead.  -->
@@ -415,7 +425,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
 
    The "ietf-udp-server" imports types defined in [RFC6991].
 
-   <CODE BEGINS> file "ietf-udp-server@2024-10-15.yang"
+   <CODE BEGINS> file "ietf-udp-server@2025-02-24.yang"
    module ietf-udp-server {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:ietf-udp-server";
@@ -433,6 +443,13 @@ Internet-Draft         udp-client-server-grouping          November 2024
        "WG Web:   <http:/tools.ietf.org/wg/netconf/>
         WG List:  <mailto:netconf@ietf.org>
 
+
+
+Huang Feng, et al.       Expires 28 August 2025                 [Page 8]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
         Authors:  Alex Huang Feng
                   <mailto:alex.huang-feng@insa-lyon.fr>
                   Pierre Francois
@@ -440,15 +457,8 @@ Internet-Draft         udp-client-server-grouping          November 2024
      description
        "Defines a generic grouping for UDP-based server applications.
 
-        Copyright (c) 2024 IETF Trust and the persons identified as
+        Copyright (c) 2025 IETF Trust and the persons identified as
         authors of the code.  All rights reserved.
-
-
-
-Huang Feng, et al.         Expires 16 May 2025                  [Page 8]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
 
         Redistribution and use in source and binary forms, with or without
         modification, is permitted pursuant to, and subject to the license
@@ -459,7 +469,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
         This version of this YANG module is part of RFC-to-be; see the RFC
         itself for full legal notices.";
 
-     revision 2024-10-15 {
+     revision 2025-02-24 {
        description
          "Initial revision";
        reference
@@ -468,7 +478,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
 
      grouping udp-server {
        description
-         "Provides a reusable grouping for configuring a UDP server.
+         "Provides a reusable grouping for configuring UDP servers.
 
           Note that this grouping uses fairly typical descendant
           node names such that a stack of 'uses' statements will
@@ -484,28 +494,28 @@ Internet-Draft         udp-client-server-grouping          November 2024
          description
            "A list of bind (listen) points for this server
             instance.  A server instance may have multiple
-            bind points to support, e.g., the same port in
-            different address families or different ports
+            bind points to support, e.g., the same port number in
+            different address families or different port numbers
             in the same address family.";
          leaf local-address {
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                 [Page 9]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
            type inet:ip-address;
            mandatory true;
            description
              "The local IP address to listen on for incoming
-              UDP messages.  To configure listening
+              UDP datagrams.  To configure listening
               on all IPv4 addresses the value must be '0.0.0.0'
               (INADDR_ANY).  To configure listening on all IPv6
               addresses the value must be '::' (INADDR6_ANY).";
          }
          leaf local-port {
-
-
-
-Huang Feng, et al.         Expires 16 May 2025                  [Page 9]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
-
            type inet:port-number;
            description
              "The local port number to listen on for incoming UDP
@@ -521,51 +531,52 @@ Internet-Draft         udp-client-server-grouping          November 2024
    This section uses the template described in Section 3.7 of
    [I-D.ietf-netmod-rfc8407bis].
 
-   The YANG module specified in this document defines a schema for data
-   that is designed to be accessed via network management protocols such
-   as NETCONF [RFC6241] or RESTCONF [RFC8040].  These network management
-   protocols are required to use a secure transport layer and mutual
-   authentication, e.g., SSH [RFC6242] without the "none" authentication
-   option, Transport Layer Security (TLS) [RFC8446] with mutual X.509
-   authentication, and HTTPS with HTTP authentication (Section 11 of
-   [RFC9110]).
+   The "ietf-udp-client" and "ietf-udp-server" YANG modules defines a
+   data model that is designed to be accessed via YANG-based management
+   protocols, such as NETCONF [RFC6241] and RESTCONF [RFC8040].  These
+   protocols have to use a secure transport layer (e.g., SSH [RFC6242],
+   TLS [RFC8446], and QUIC [RFC9000]) and have to use mutual
+   authentication.
 
    The Network Configuration Access Control Model (NACM) [RFC8341]
    provides the means to restrict access for particular NETCONF or
    RESTCONF users to a preconfigured subset of all available NETCONF or
    RESTCONF protocol operations and content.
 
-   The YANG module defines a set of identities, types, and groupings.
+   The YANG modules define a set of identities, types, and groupings.
    These nodes are intended to be reused by other YANG modules.  The
    module by itself does not expose any data nodes that are writable,
    data nodes that contain read-only state, or RPCs.  As such, there are
    no additional security issues related to the YANG module that need to
    be considered.
 
+
+
+
+
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                [Page 10]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
    Modules that use the groupings that are defined in this document
    should identify the corresponding security considerations.  For
    example, reusing some of these groupings will expose privacy-related
-   information (e.g., 'node-example').
+   information (e.g., 'remote-address', 'remote-port', 'local-address'
+   or 'local-port').
 
 5.  IANA Considerations
 
    This document describes the URIs from IETF XML Registry and the
    registration of a two new YANG module names
 
-
-
-
-
-
-Huang Feng, et al.         Expires 16 May 2025                 [Page 10]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
-
 5.1.  URI
 
    IANA is requested to assign two new URIs from the IETF XML Registry
-   [RFC3688].  The following two URIs are suggested:
+   [RFC3688]:
 
    URI: urn:ietf:params:xml:ns:yang:ietf-udp-client
    Registrant Contact: The IESG.
@@ -575,7 +586,7 @@ Internet-Draft         udp-client-server-grouping          November 2024
    Registrant Contact: The IESG.
    XML: N/A; the requested URI is an XML namespace.
 
-5.2.  YANG module name
+5.2.  YANG Module Name
 
    This document also requests IANA to register the following YANG
    modules in the YANG Module Names registry [RFC6020] within the "YANG
@@ -600,6 +611,13 @@ Internet-Draft         udp-client-server-grouping          November 2024
 
 7.  References
 
+
+
+Huang Feng, et al.       Expires 28 August 2025                [Page 11]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
 7.1.  Normative References
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -611,26 +629,10 @@ Internet-Draft         udp-client-server-grouping          November 2024
               DOI 10.17487/RFC3688, January 2004,
               <https://www.rfc-editor.org/info/rfc3688>.
 
-
-
-Huang Feng, et al.         Expires 16 May 2025                 [Page 11]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
-
    [RFC6020]  Bjorklund, M., Ed., "YANG - A Data Modeling Language for
               the Network Configuration Protocol (NETCONF)", RFC 6020,
               DOI 10.17487/RFC6020, October 2010,
               <https://www.rfc-editor.org/info/rfc6020>.
-
-   [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
-              and A. Bierman, Ed., "Network Configuration Protocol
-              (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
-              <https://www.rfc-editor.org/info/rfc6241>.
-
-   [RFC6242]  Wasserman, M., "Using the NETCONF Protocol over Secure
-              Shell (SSH)", RFC 6242, DOI 10.17487/RFC6242, June 2011,
-              <https://www.rfc-editor.org/info/rfc6242>.
 
    [RFC6991]  Schoenwaelder, J., Ed., "Common YANG Data Types",
               RFC 6991, DOI 10.17487/RFC6991, July 2013,
@@ -643,10 +645,6 @@ Internet-Draft         udp-client-server-grouping          November 2024
    [RFC7950]  Bjorklund, M., Ed., "The YANG 1.1 Data Modeling Language",
               RFC 7950, DOI 10.17487/RFC7950, August 2016,
               <https://www.rfc-editor.org/info/rfc7950>.
-
-   [RFC8040]  Bierman, A., Bjorklund, M., and K. Watsen, "RESTCONF
-              Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
-              <https://www.rfc-editor.org/info/rfc8040>.
 
    [RFC8174]  Leiba, B., "Ambiguity of Uppercase vs Lowercase in RFC
               2119 Key Words", BCP 14, RFC 8174, DOI 10.17487/RFC8174,
@@ -661,33 +659,55 @@ Internet-Draft         udp-client-server-grouping          November 2024
               DOI 10.17487/RFC8341, March 2018,
               <https://www.rfc-editor.org/info/rfc8341>.
 
-   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
-              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
-              <https://www.rfc-editor.org/info/rfc8446>.
-
-
-
-
-
-Huang Feng, et al.         Expires 16 May 2025                 [Page 12]
-
-Internet-Draft         udp-client-server-grouping          November 2024
-
-
-   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
-              Ed., "HTTP Semantics", STD 97, RFC 9110,
-              DOI 10.17487/RFC9110, June 2022,
-              <https://www.rfc-editor.org/info/rfc9110>.
-
 7.2.  Informative References
+
+
+
+
+
+
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                [Page 12]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
 
    [I-D.ietf-netmod-rfc8407bis]
               Bierman, A., Boucadair, M., and Q. Wu, "Guidelines for
               Authors and Reviewers of Documents Containing YANG Data
               Models", Work in Progress, Internet-Draft, draft-ietf-
-              netmod-rfc8407bis-20, 21 October 2024,
+              netmod-rfc8407bis-22, 14 January 2025,
               <https://datatracker.ietf.org/doc/html/draft-ietf-netmod-
-              rfc8407bis-20>.
+              rfc8407bis-22>.
+
+   [RFC6241]  Enns, R., Ed., Bjorklund, M., Ed., Schoenwaelder, J., Ed.,
+              and A. Bierman, Ed., "Network Configuration Protocol
+              (NETCONF)", RFC 6241, DOI 10.17487/RFC6241, June 2011,
+              <https://www.rfc-editor.org/info/rfc6241>.
+
+   [RFC6242]  Wasserman, M., "Using the NETCONF Protocol over Secure
+              Shell (SSH)", RFC 6242, DOI 10.17487/RFC6242, June 2011,
+              <https://www.rfc-editor.org/info/rfc6242>.
+
+   [RFC8040]  Bierman, A., Bjorklund, M., and K. Watsen, "RESTCONF
+              Protocol", RFC 8040, DOI 10.17487/RFC8040, January 2017,
+              <https://www.rfc-editor.org/info/rfc8040>.
+
+   [RFC8446]  Rescorla, E., "The Transport Layer Security (TLS) Protocol
+              Version 1.3", RFC 8446, DOI 10.17487/RFC8446, August 2018,
+              <https://www.rfc-editor.org/info/rfc8446>.
+
+   [RFC9000]  Iyengar, J., Ed. and M. Thomson, Ed., "QUIC: A UDP-Based
+              Multiplexed and Secure Transport", RFC 9000,
+              DOI 10.17487/RFC9000, May 2021,
+              <https://www.rfc-editor.org/info/rfc9000>.
+
+   [RFC9110]  Fielding, R., Ed., Nottingham, M., Ed., and J. Reschke,
+              Ed., "HTTP Semantics", STD 97, RFC 9110,
+              DOI 10.17487/RFC9110, June 2022,
+              <https://www.rfc-editor.org/info/rfc9110>.
 
 Authors' Addresses
 
@@ -702,6 +722,14 @@ Authors' Addresses
    INSA-Lyon
    Lyon
    France
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                [Page 13]
+
+Internet-Draft         udp-client-server-grouping          February 2025
+
+
    Email: pierre.francois@insa-lyon.fr
 
 
@@ -725,4 +753,32 @@ Authors' Addresses
 
 
 
-Huang Feng, et al.         Expires 16 May 2025                 [Page 13]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+Huang Feng, et al.       Expires 28 August 2025                [Page 14]

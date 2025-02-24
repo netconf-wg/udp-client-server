@@ -74,11 +74,11 @@
       </address>
     </author>
 
-    <date day="12" month="November" year="2024"/>
+    <date day="24" month="February" year="2025"/>
 
     <abstract>
-      <t>This document defines two YANG 1.1 modules to
-      support the configuration of UDP clients and UDP servers.</t>
+      <t>This document defines two YANG 1.1 modules with reusable
+      groupings for managing UDP clients and UDP servers.</t>
     </abstract>
 
     <note title="Requirements Language">
@@ -92,9 +92,9 @@
 
   <middle>
     <section anchor="introduction" title="Introduction">
-      <t>This document defines two YANG 1.1 <xref target="RFC7950"/> modules to support
-      the configuration of UDP clients and UDP servers <xref target="RFC768"/>.
-      The data models defined by these modules may be used directly (e.g., to define
+      <t>This document defines two YANG 1.1 <xref target="RFC7950"/> modules with reusable groupings
+      for managing UDP clients and UDP servers <xref target="RFC768"/>.
+      These modules may be used directly (e.g., define
       a specific UDP client or UDP server) or in conjunction with the configuration defined
       for higher level protocols that depend on UDP.</t>
     </section>
@@ -102,11 +102,11 @@
     <section anchor="udp-client" title='The "ietf-udp-client" Module'>
       <t>This section defines a YANG 1.1 module called "ietf-udp-client".
       This YANG module defines the "udp-client"
-      grouping for configuring UDP clients with remote server information.</t>
+      grouping for providing UDP clients with remote server information.</t>
       
-      <t><xref target="udp-client-overview"/> provides an overview of the
-      YANG module for configuring UDP clients. An example of usage is illustrated
-      in <xref target="example-client"/> and <xref target="udp-client-ym"/> defines the
+      <t><xref target="udp-client-overview"/> provides the overview of the
+      YANG module. An example of usage is illustrated
+      in <xref target="example-client"/>, while <xref target="udp-client-ym"/> defines the
       YANG module itself.</t>
 
       <section anchor="udp-client-overview" title='Data Model Overview'>
@@ -114,13 +114,13 @@
         "ietf-udp-client" YANG module.
         </t>
         <section title="Features">
-          <t>The "ietf-udp-client" module defines only one "feature" statements:</t>
+          <t>The "ietf-udp-client" module defines the following "feature" statement:</t>
           <sourcecode type="yangtree"><![CDATA[
 Features:
   +-- local-binding
 ]]></sourcecode>
-          <t>This "local-binding" feature indicates that the client supports
-            configuring local bindings (i.e., the local address and local port) for UDP clients.</t>
+          <t>This feature indicates that the client supports
+            configuring local bindings (i.e., the local address and local port number) for UDP clients.</t>
           
           <t>The diagram above uses syntax that is similar to but not defined in
           <xref target="RFC8340"/>.</t>
@@ -139,10 +139,11 @@ module: ietf-udp-client
     +-- local-port?       inet:port-number {local-binding}?
 ]]></sourcecode>
 
-          <t>Comments:</t>
+          <t>The description of these parameters is provided below:</t>
           <ul>
             <li>The "remote-address", which is mandatory, may be configured as
-              an IPv4 address, an IPv6 address, or a hostname.</li>
+              an IPv4 address, an IPv6 address, or a hostname. The resolved address should be
+              compatible with the local address family, if also provided.</li>
             <li>The "remote-port" is defined with neither a "default"
               nor a "mandatory" statement.  YANG modules using this grouping
               SHOULD refine the grouping with a "default" statement,
@@ -153,10 +154,11 @@ module: ietf-udp-client
               is used by another grouping.</li>
             <li>The "local-address", which is enabled by the "local-binding"
               feature, may be configured as
-              an IPv4 address, an IPv6 address, or a wildcard value.</li>
-            <li>The "local-port", which is enabled by the "local-binding"
+              an IPv4 address, an IPv6 address, or a wildcard value.
+              The local address must use the same address family as the configured remote address.</li>
+            <li>The "local-port", which depends on the "local-binding"
               feature, is not mandatory. Its default
-              value is "0", indicating that the operating system can pick an
+              value is "0", indicating that the operating system can select an
               arbitrary port number.</li>
           </ul>
         </section>
@@ -182,7 +184,7 @@ module: ietf-udp-client
       <section anchor="udp-client-ym" title="YANG Module">
         <t>This module imports types defined in <xref target="RFC6991"/>.</t>
 
-        <sourcecode name="ietf-udp-client@2024-10-15.yang" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-client@2025-02-24.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-client {
   yang-version 1.1;
   namespace
@@ -207,7 +209,7 @@ module ietf-udp-client {
   description
     "Defines a generic grouping for UDP-based client applications.
 
-    Copyright (c) 2024 IETF Trust and the persons identified as
+    Copyright (c) 2025 IETF Trust and the persons identified as
     authors of the code.  All rights reserved.
 
     Redistribution and use in source and binary forms, with or without
@@ -219,7 +221,7 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2024-10-15 {
+  revision 2025-02-24 {
     description
       "Initial revision";
     reference
@@ -229,13 +231,13 @@ module ietf-udp-client {
   feature local-binding {
     description
       "Indicates that the UDP client supports configuring local
-       bindings (i.e., the local address and local port) for
+       bindings (i.e., the local address and local port number) for
        UDP clients.";
   }
 
   grouping udp-client {
     description
-      "A reusable grouping for configuring a UDP client.
+      "A reusable grouping for UDP clients.
       
       Note that this grouping uses fairly typical descendant
       node names such that a stack of 'uses' statements will
@@ -252,7 +254,8 @@ module ietf-udp-client {
       description
         "The IP address or hostname of the remote UDP server.
         If a domain name is configured, then the DNS resolution should
-        happen on each connection attempt. If the DNS resolution
+        happen on each connection attempt, unless a previously resolved
+        address is cached and still valid. If the DNS resolution
         results in multiple IP addresses, the IP addresses
         are tried according to local preference order until
         a connection has been established or until all IP
@@ -281,7 +284,7 @@ module ietf-udp-client {
       default "0";
       description
         "The local port number to bind to when sending UDP
-        messages to the remote server. The port number '0',
+        datagrams to the remote server. The port number '0',
         which is the default value, indicates that any available
         local port number may be used.";
     }
@@ -319,7 +322,7 @@ module: ietf-udp-server
        +-- local-port?      inet:port-number
   ]]></sourcecode>
 
-          <t>Comments:</t>
+          <t>The description of these parameters is provided below:</t>
           <ul>
             <li>The "local-address", which is mandatory, may be configured as
               an IPv4 address, an IPv6 address, or a wildcard value.</li>
@@ -353,7 +356,7 @@ module: ietf-udp-server
 </udp-server>
     ]]></sourcecode>
 
-        <t>This example shows an example of a server configured to listen to an IPv4 and
+        <t>This following shows an example of a server configured to listen to an IPv4 and
         IPv6 together:</t>
 
         <sourcecode type="xml"><![CDATA[
@@ -377,7 +380,7 @@ module: ietf-udp-server
       <section anchor="udp-server-ym" title="YANG Module">
         <t>The "ietf-udp-server" imports types defined in <xref target="RFC6991"/>.</t>
 
-        <sourcecode name="ietf-udp-server@2024-10-15.yang" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-server@2025-02-24.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-server {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-udp-server";
@@ -402,7 +405,7 @@ module ietf-udp-server {
   description
     "Defines a generic grouping for UDP-based server applications.
 
-     Copyright (c) 2024 IETF Trust and the persons identified as
+     Copyright (c) 2025 IETF Trust and the persons identified as
      authors of the code.  All rights reserved.
 
      Redistribution and use in source and binary forms, with or without
@@ -414,7 +417,7 @@ module ietf-udp-server {
      This version of this YANG module is part of RFC-to-be; see the RFC
      itself for full legal notices.";
 
-  revision 2024-10-15 {
+  revision 2025-02-24 {
     description
       "Initial revision";
     reference
@@ -423,7 +426,7 @@ module ietf-udp-server {
 
   grouping udp-server {
     description
-      "Provides a reusable grouping for configuring a UDP server.
+      "Provides a reusable grouping for configuring UDP servers.
 
        Note that this grouping uses fairly typical descendant
        node names such that a stack of 'uses' statements will
@@ -439,15 +442,15 @@ module ietf-udp-server {
       description
         "A list of bind (listen) points for this server
          instance.  A server instance may have multiple
-         bind points to support, e.g., the same port in
-         different address families or different ports
+         bind points to support, e.g., the same port number in
+         different address families or different port numbers
          in the same address family.";
       leaf local-address {
         type inet:ip-address;
         mandatory true;
         description
           "The local IP address to listen on for incoming
-           UDP messages.  To configure listening
+           UDP datagrams.  To configure listening
            on all IPv4 addresses the value must be '0.0.0.0'
            (INADDR_ANY).  To configure listening on all IPv6
            addresses the value must be '::' (INADDR6_ANY).";
@@ -470,14 +473,11 @@ module ietf-udp-server {
       <t>This section uses the template described in Section 3.7 of
       <xref target="I-D.ietf-netmod-rfc8407bis"/>.</t>
 
-      <t>The YANG module specified in this document defines a schema for data
-        that is designed to be accessed via network management protocols such
-        as NETCONF <xref target="RFC6241"/> or RESTCONF <xref target="RFC8040"/>. These network management
-        protocols are required to use a secure transport layer and mutual
-        authentication, e.g., SSH <xref target="RFC6242"/> without the "none" authentication
-        option, Transport Layer Security (TLS) <xref target="RFC8446"/> with mutual X.509
-        authentication, and HTTPS with HTTP authentication (Section 11 of
-        <xref target="RFC9110"/>).
+      <t>The "ietf-udp-client" and "ietf-udp-server" YANG modules defines a data model that is
+      designed to be accessed via YANG-based management protocols, such as
+      NETCONF <xref target="RFC6241"/> and RESTCONF <xref target="RFC8040"/>. These protocols have to
+      use a secure transport layer (e.g., SSH <xref target="RFC6242"/>, TLS <xref target="RFC8446"/>, and
+      QUIC <xref target="RFC9000"/>) and have to use mutual authentication.
       </t>
 
       <t>The Network Configuration Access Control Model (NACM) <xref target="RFC8341"/>
@@ -486,7 +486,7 @@ module ietf-udp-server {
         RESTCONF protocol operations and content.
       </t>
 
-      <t>The YANG module defines a set of identities, types, and
+      <t>The YANG modules define a set of identities, types, and
         groupings. These nodes are intended to be reused by other YANG
         modules. The module by itself does not expose any data nodes that
         are writable, data nodes that contain read-only state, or RPCs.
@@ -497,7 +497,8 @@ module ietf-udp-server {
       <t>Modules that use the groupings that are defined in this document
         should identify the corresponding security considerations. For
         example, reusing some of these groupings will expose privacy-related
-        information (e.g., 'node-example').
+        information (e.g., 'remote-address', 'remote-port', 'local-address'
+        or 'local-port').
       </t>
     </section>
 
@@ -506,8 +507,7 @@ module ietf-udp-server {
       XML Registry and the registration of a two new YANG module names</t>
       <section title="URI">
         <t>IANA is requested to assign two new URIs from the <xref
-        target="RFC3688">IETF XML Registry</xref>. The following two URIs are
-        suggested:</t>
+        target="RFC3688">IETF XML Registry</xref>:</t>
 
         <t><figure>
             <artwork align="left"><![CDATA[
@@ -524,7 +524,7 @@ XML: N/A; the requested URI is an XML namespace.]]></artwork>
           </figure></t>
       </section>
 
-      <section title="YANG module name">
+      <section title="YANG Module Name">
         <t>This document also requests IANA to register the following YANG modules in the
         <xref target="RFC6020">YANG Module Names registry</xref> within the "YANG Parameters"
         registry group:</t>
@@ -561,20 +561,21 @@ reference: RFC-to-be]]></artwork>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.2119.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.3688.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6020.xml"?>
-      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6241.xml"?>
-      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6242.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6991.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.7950.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8341.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8174.xml"?>
-      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8040.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8340.xml"?>
-      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8446.xml"?>
-      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.9110.xml"?>
     </references>
 
     <references title="Informative References">
       <?rfc include="https://bib.ietf.org/public/rfc/bibxml-ids/reference.I-D.ietf-netmod-rfc8407bis.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6241.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6242.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8040.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8446.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.9000.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.9110.xml"?>
     </references>
   </back>
 </rfc>
