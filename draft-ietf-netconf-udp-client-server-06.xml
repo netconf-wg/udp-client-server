@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="US-ASCII"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE rfc>
 <?rfc toc="yes"?>
 <?rfc tocompact="yes"?>
@@ -80,14 +80,6 @@
       <t>This document defines two YANG 1.1 modules with reusable
       groupings for managing UDP clients and UDP servers.</t>
     </abstract>
-
-    <note title="Requirements Language">
-      <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
-      "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
-      "OPTIONAL" in this document are to be interpreted as described in BCP 14
-      <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when,
-      they appear in all capitals, as shown here.</t>
-    </note>
   </front>
 
   <middle>
@@ -97,6 +89,25 @@
       These modules may be used directly (e.g., define
       a specific UDP client or UDP server) or in conjunction with the configuration defined
       for higher level protocols that depend on UDP.</t>
+
+      <section title="Requirements Language">
+        <t>The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL NOT",
+        "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED", "MAY", and
+        "OPTIONAL" in this document are to be interpreted as described in BCP 14
+        <xref target="RFC2119"/> <xref target="RFC8174"/> when, and only when,
+        they appear in all capitals, as shown here.</t>
+      </section>
+
+      <section title="Adherence to the NMDA">
+        <t>This document is compliant with the Network Management Datastore
+        Architecture (NMDA) <xref target="RFC8342"/>. It does not define
+        any protocol accessible nodes that are "config false".</t>
+      </section>
+
+      <section title="Conventions">
+        <t>Various examples in this document use the XML <xref target="W3C.REC-xml-20081126"/>
+        encoding. Other encodings, such as JSON <xref target="RFC8259"/>, could alternatively be used.</t>
+      </section>
     </section>
 
     <section anchor="udp-client" title='The "ietf-udp-client" Module'>
@@ -317,7 +328,7 @@ module ietf-udp-client {
 module: ietf-udp-server
 
   grouping udp-server:
-    +-- local-bind* [local-address]
+    +-- local-bind* [local-address local-port]
        +-- local-address    inet:ip-address
        +-- local-port?      inet:port-number
   ]]></sourcecode>
@@ -437,7 +448,7 @@ module ietf-udp-server {
        not do this itself so as to provide maximum flexibility
        to consuming models.";
     list local-bind {
-      key "local-address";
+      key "local-address local-port";
       min-elements 1;
       description
         "A list of bind (listen) points for this server
@@ -573,9 +584,24 @@ reference: RFC-to-be]]></artwork>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6241.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.6242.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8040.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8259.xml"?>
+      <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8342.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.8446.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.9000.xml"?>
       <?rfc include="https://xml.resource.org/public/rfc/bibxml/reference.RFC.9110.xml"?>
+
+      <reference anchor="W3C.REC-xml-20081126" target="https://www.w3.org/TR/2008/REC-xml-20081126/" quoteTitle="true" derivedAnchor="W3C.REC-xml-20081126">
+          <front>
+            <title>Extensible Markup Language (XML) 1.0 (Fifth Edition)</title>
+            <author initials="T." surname="Bray" fullname="Tim Bray"/>
+            <author initials="J." surname="Paoli" fullname="Jean Paoli"/>
+            <author initials="C.M." surname="Sperberg-McQueen" fullname="C. M. Sperberg-McQueen"/>
+            <author initials="E." surname="Maler" fullname="Eve Maler"/>
+            <author initials="F." surname="Yergeau" fullname="François Yergeau"/>
+            <date month="November" year="2008"/>
+          </front>
+          <seriesInfo name="World Wide Web Consortium Recommendation" value="REC-xml-20081126"/>
+        </reference>
     </references>
   </back>
 </rfc>

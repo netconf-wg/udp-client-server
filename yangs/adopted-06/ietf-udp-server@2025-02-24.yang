@@ -54,7 +54,7 @@ module ietf-udp-server {
        not do this itself so as to provide maximum flexibility
        to consuming models.";
     list local-bind {
-      key "local-address";
+      key "local-address local-port";
       min-elements 1;
       description
         "A list of bind (listen) points for this server
