@@ -632,9 +632,9 @@ Internet-Draft    Groupings for UDP Clients and Servers       April 2025
 
 6.  Acknowledgements
 
-   The authors would like to thank Mohamed Boucadair, Benoit Claise,
-   Qiufang Ma, Jürgen Schönwälder and Qin Wu for their review and
-   valuable comments.
+   The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit
+   Claise, Qiufang Ma, Jürgen Schönwälder and Qin Wu for their review
+   and valuable comments.
 
 7.  References
 
