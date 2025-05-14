@@ -34,7 +34,7 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2025-04-25 {
+  revision 2025-05-14 {
     description
       "Initial revision";
     reference
@@ -85,7 +85,7 @@ module ietf-udp-client {
       type inet:ip-address;
       description
         "The local IP address to bind to when sending UDP
-        messages to the remote server. INADDR_ANY ('0.0.0.0') or
+        datagrams to the remote server. INADDR_ANY ('0.0.0.0') or
         INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
         so that the client can bind to any IPv4 or IPv6 address.";
     }

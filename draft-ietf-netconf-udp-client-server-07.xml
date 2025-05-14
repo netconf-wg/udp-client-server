@@ -74,7 +74,7 @@
       </address>
     </author>
 
-    <date day="26" month="April" year="2025"/>
+    <date day="14" month="May" year="2025"/>
 
     <abstract>
       <t>This document defines two YANG 1.1 modules with reusable
@@ -195,7 +195,7 @@ module: ietf-udp-client
       <section anchor="udp-client-ym" title="YANG Module">
         <t>This module imports types defined in <xref target="RFC6991"/>.</t>
 
-        <sourcecode name="ietf-udp-client@2025-04-25.yang" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-client@2025-05-14.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-client {
   yang-version 1.1;
   namespace
@@ -232,7 +232,7 @@ module ietf-udp-client {
     This version of this YANG module is part of RFC-to-be; see the RFC
     itself for full legal notices.";
 
-  revision 2025-04-25 {
+  revision 2025-05-14 {
     description
       "Initial revision";
     reference
@@ -283,7 +283,7 @@ module ietf-udp-client {
       type inet:ip-address;
       description
         "The local IP address to bind to when sending UDP
-        messages to the remote server. INADDR_ANY ('0.0.0.0') or
+        datagrams to the remote server. INADDR_ANY ('0.0.0.0') or
         INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
         so that the client can bind to any IPv4 or IPv6 address.";
     }
@@ -390,7 +390,7 @@ module: ietf-udp-server
       <section anchor="udp-server-ym" title="YANG Module">
         <t>The "ietf-udp-server" imports types defined in <xref target="RFC6991"/>.</t>
 
-        <sourcecode name="ietf-udp-server@2025-04-25.yang" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-server@2025-05-14.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-server {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-udp-server";
@@ -427,7 +427,7 @@ module ietf-udp-server {
      This version of this YANG module is part of RFC-to-be; see the RFC
      itself for full legal notices.";
 
-  revision 2025-04-25 {
+  revision 2025-05-14 {
     description
       "Initial revision";
     reference
@@ -469,7 +469,7 @@ module ietf-udp-server {
         type inet:port-number;
         description
           "The local port number to listen on for incoming UDP
-           messages.";
+           datagrams.";
       }
     }
   }
