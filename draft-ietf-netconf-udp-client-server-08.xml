@@ -266,9 +266,7 @@ module ietf-udp-client {
         "The IP address or hostname of the remote UDP server.
         If a domain name is configured, then the name resolution
         should happen before each datagram is sent, unless a
-        previously resolved address is cached and still valid.
-        If the name resolution results in multiple IP addresses,
-        the datagram is sent to the first IP address.";
+        previously resolved address is cached and still valid.";
     }
 
     leaf remote-port {
