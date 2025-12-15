@@ -279,10 +279,7 @@ module ietf-udp-client {
       type inet:host;
       mandatory true;
       description
-        "The IP address or hostname of the remote UDP server.
-        If a domain name is configured, then the name resolution
-        should happen before each datagram is sent, unless a
-        previously resolved address is cached and still valid.";
+        "The IP address or hostname of the remote UDP server.";
     }
 
     leaf remote-port {
@@ -477,10 +474,9 @@ module ietf-udp-server {
         mandatory true;
         description
           "The local IP address to listen on for incoming
-           UDP datagrams.  To configure listening
-           on all IPv4 addresses the value must be '0.0.0.0'
-           (INADDR_ANY).  To configure listening on all IPv6
-           addresses the value must be '::' (INADDR6_ANY).";
+          UDP datagrams. INADDR_ANY ('0.0.0.0') or
+          INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
+          so that the server can listen to any IPv4 or IPv6 address.";
       }
       leaf local-port {
         type inet:port-number;
@@ -577,8 +573,8 @@ reference: RFC XXXX]]></artwork>
     </section>
 
     <section anchor="acknowledgements" title="Acknowledgements">
-      <t>The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit Claise, Qiufang Ma, Jürgen Schönwälder
-      and Qin Wu for their review and valuable comments.</t>
+      <t>The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit Claise, Qiufang Ma, Jürgen Schönwälder, 
+      Eric Vyncke and Qin Wu for their review and valuable comments.</t>
     </section>
   </middle>
 

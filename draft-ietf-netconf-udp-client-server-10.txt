@@ -311,10 +311,7 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
          type inet:host;
          mandatory true;
          description
-           "The IP address or hostname of the remote UDP server.
-           If a domain name is configured, then the name resolution
-           should happen before each datagram is sent, unless a
-           previously resolved address is cached and still valid.";
+           "The IP address or hostname of the remote UDP server.";
        }
 
        leaf remote-port {
@@ -330,6 +327,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
            "The local IP address to bind to when sending UDP
            datagrams to the remote server. INADDR_ANY ('0.0.0.0') or
            INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
+           so that the client can bind to any IPv4 or IPv6 address.";
+       }
+
 
 
 
@@ -337,9 +337,6 @@ Huang-Feng, et al.         Expires 23 May 2026                  [Page 6]
 
 Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
-
-           so that the client can bind to any IPv4 or IPv6 address.";
-       }
 
        leaf local-port {
          if-feature "local-binding";
@@ -386,6 +383,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
    *  The "local-address", which is mandatory, may be configured as an
       IPv4 address, an IPv6 address, or a wildcard value.
+
+
+
 
 
 
@@ -532,10 +532,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
            mandatory true;
            description
              "The local IP address to listen on for incoming
-              UDP datagrams.  To configure listening
-              on all IPv4 addresses the value must be '0.0.0.0'
-              (INADDR_ANY).  To configure listening on all IPv6
-              addresses the value must be '::' (INADDR6_ANY).";
+             UDP datagrams. INADDR_ANY ('0.0.0.0') or
+             INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
+             so that the server can listen to any IPv4 or IPv6 address.";
          }
          leaf local-port {
            type inet:port-number;
@@ -552,6 +551,7 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
    This section uses the template described in Section 3.7 of
    [I-D.ietf-netmod-rfc8407bis].
+
 
 
 

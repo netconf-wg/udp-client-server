@@ -70,10 +70,7 @@ module ietf-udp-client {
       type inet:host;
       mandatory true;
       description
-        "The IP address or hostname of the remote UDP server.
-        If a domain name is configured, then the name resolution
-        should happen before each datagram is sent, unless a
-        previously resolved address is cached and still valid.";
+        "The IP address or hostname of the remote UDP server.";
     }
 
     leaf remote-port {

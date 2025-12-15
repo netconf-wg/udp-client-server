@@ -71,10 +71,9 @@ module ietf-udp-server {
         mandatory true;
         description
           "The local IP address to listen on for incoming
-           UDP datagrams.  To configure listening
-           on all IPv4 addresses the value must be '0.0.0.0'
-           (INADDR_ANY).  To configure listening on all IPv6
-           addresses the value must be '::' (INADDR6_ANY).";
+          UDP datagrams. INADDR_ANY ('0.0.0.0') or
+          INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
+          so that the server can listen to any IPv4 or IPv6 address.";
       }
       leaf local-port {
         type inet:port-number;
