@@ -177,7 +177,9 @@ module: ietf-udp-client
             <li>The "local-address", which is enabled by the "local-binding"
               feature, may be configured as
               an IPv4 address, an IPv6 address, or a wildcard value.
-              The local address must use the same address family as the configured remote address.</li>
+              In normal operation, the local and configured remote addresses are expected
+              to use the same address family. Differences between address families may
+              occur in abnormal or error conditions and are therefore allowed to be reported.</li>
             <li>The "local-port", which depends on the "local-binding"
               feature, is not mandatory. Its default
               value is "0", indicating that the operating system can select an
@@ -295,7 +297,12 @@ module ietf-udp-client {
         "The local IP address to bind to when sending UDP
         datagrams to the remote server. INADDR_ANY ('0.0.0.0') or
         INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
-        so that the client can bind to any IPv4 or IPv6 address.";
+        so that the client can bind to any IPv4 or IPv6 address.
+        In normal operation, the local and configured
+        remote addresses are expected to use the same address family.
+        Differences between address families may occur in
+        abnormal or error conditions and are therefore allowed to
+        be reported.";
     }
 
     leaf local-port {
@@ -573,7 +580,7 @@ reference: RFC XXXX]]></artwork>
     </section>
 
     <section anchor="acknowledgements" title="Acknowledgements">
-      <t>The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit Claise, Qiufang Ma, Jürgen Schönwälder, 
+      <t>The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit Claise, Qiufang Ma, Jürgen Schönwälder, Ketan Talaulikar,
       Eric Vyncke and Qin Wu for their review and valuable comments.</t>
     </section>
   </middle>
