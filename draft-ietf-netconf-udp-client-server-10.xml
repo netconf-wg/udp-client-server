@@ -585,8 +585,9 @@ reference: RFC XXXX]]></artwork>
     </section>
 
     <section anchor="acknowledgements" title="Acknowledgements">
-      <t>The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit Claise, Qiufang Ma, Jürgen Schönwälder, Ketan Talaulikar,
-      Eric Vyncke and Qin Wu for their review and valuable comments.</t>
+      <t>The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit Claise, Mahesh Jethanandani, 
+      Qiufang Ma, Jürgen Schönwälder, Ketan Talaulikar, 
+      Eric Vyncke, Paul Wouters and Qin Wu for their review and valuable comments.</t>
     </section>
   </middle>
 

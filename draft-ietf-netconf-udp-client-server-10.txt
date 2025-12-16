@@ -652,8 +652,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 6.  Acknowledgements
 
    The authors would like to thank Mohamed Boucadair, Ran Chen, Benoit
-   Claise, Qiufang Ma, Jürgen Schönwälder, Ketan Talaulikar, Eric Vyncke
-   and Qin Wu for their review and valuable comments.
+   Claise, Mahesh Jethanandani, Qiufang Ma, Jürgen Schönwälder, Ketan
+   Talaulikar, Eric Vyncke, Paul Wouters and Qin Wu for their review and
+   valuable comments.
 
 7.  References
 
@@ -664,7 +665,6 @@ Internet-Draft    Groupings for UDP Clients and Servers    December 2025
               Progress, Internet-Draft, draft-ietf-netmod-rfc6991-bis-
               18, 23 June 2025, <https://datatracker.ietf.org/doc/html/
               draft-ietf-netmod-rfc6991-bis-18>.
-
 
 
 
