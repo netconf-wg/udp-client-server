@@ -5,9 +5,9 @@
 Network Working Group                                      A. Huang-Feng
 Internet-Draft                                               P. Francois
 Intended status: Standards Track                               INSA-Lyon
-Expires: 23 May 2026                                           K. Watsen
+Expires: 19 June 2026                                          K. Watsen
                                                          Watsen Networks
-                                                        19 November 2025
+                                                        16 December 2025
 
 
              YANG Groupings for UDP Clients and UDP Servers
@@ -41,7 +41,7 @@ Status of This Memo
    time.  It is inappropriate to use Internet-Drafts as reference
    material or to cite them other than as "work in progress."
 
-   This Internet-Draft will expire on 23 May 2026.
+   This Internet-Draft will expire on 19 June 2026.
 
 Copyright Notice
 
@@ -53,9 +53,9 @@ Copyright Notice
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 1]
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 1]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
    This document is subject to BCP 78 and the IETF Trust's Legal
@@ -109,9 +109,9 @@ Table of Contents
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 2]
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 2]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
 1.2.  Adherence to the NMDA
@@ -165,9 +165,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 3]
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 3]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
    module: ietf-udp-client
@@ -197,7 +197,7 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
    *  The "local-address", which is enabled by the "local-binding"
       feature, may be configured as an IPv4 address, an IPv6 address, or
       a wildcard value.  In normal operation, the local and configured
-      remote addresses are expected to use the same address family.
+      remote addresses SHOULD be from the same address family.
       Differences between address families may occur in abnormal or
       error conditions and are therefore allowed to be reported.
 
@@ -221,9 +221,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 4]
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 4]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
    <!-- The outermost element below doesn't exist in the data model. -->
@@ -240,7 +240,7 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
    This module imports types defined in [I-D.ietf-netmod-rfc6991-bis].
 
-   <CODE BEGINS> file "ietf-udp-client@2025-12-09.yang"
+   <CODE BEGINS> file "ietf-udp-client@2025-12-16.yang"
    module ietf-udp-client {
      yang-version 1.1;
      namespace
@@ -277,9 +277,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 5]
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 5]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
        All revisions of IETF and IANA published modules can be found
@@ -287,10 +287,15 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
        (https://www.iana.org/assignments/yang-parameters).
 
        This version of this YANG module is part of RFC XXXX; see
-       the RFC itself for full legal notices.";
+       the RFC itself for full legal notices.
 
+       The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+       NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+       'MAY', and 'OPTIONAL' in this document are to be interpreted as
+       described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+       they appear in all capitals, as shown here.";
 
-     revision 2025-12-09 {
+     revision 2025-12-16 {
        description
          "Initial revision";
        reference
@@ -325,18 +330,18 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
        }
 
        leaf remote-port {
+
+
+
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 6]
+
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
+
+
          type inet:port-number;
          description
            "The port number of the remote UDP server.";
        }
-
-
-
-
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 6]
-
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
-
 
        leaf local-address {
          if-feature "local-binding";
@@ -347,7 +352,7 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
            INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
            so that the client can bind to any IPv4 or IPv6 address.
            In normal operation, the local and configured
-           remote addresses are expected to use the same address family.
+           remote addresses SHOULD be from the same address family.
            Differences between address families may occur in
            abnormal or error conditions and are therefore allowed to
            be reported.";
@@ -382,17 +387,17 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
    This section provides an overview of the grouping defined in the
    "ietf-udp-server" module.
 
+
+
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 7]
+
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
+
+
 3.1.1.  The "udp-server" Grouping
 
    The following tree diagram [RFC8340] illustrates the structure of
    "udp-server" grouping:
-
-
-
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 7]
-
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
-
 
    module: ietf-udp-server
 
@@ -440,14 +445,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-
-
-
-
-
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 8]
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 8]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
    <!-- The outermost element below doesn't exist in the data model. -->
@@ -469,7 +469,7 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
    The "ietf-udp-server" imports types defined in
    [I-D.ietf-netmod-rfc6991-bis].
 
-   <CODE BEGINS> file "ietf-udp-server@2025-12-09.yang"
+   <CODE BEGINS> file "ietf-udp-server@2025-12-16.yang"
    module ietf-udp-server {
      yang-version 1.1;
      namespace "urn:ietf:params:xml:ns:yang:ietf-udp-server";
@@ -501,9 +501,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                  [Page 9]
+Huang-Feng, et al.        Expires 19 June 2026                  [Page 9]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
        modification, is permitted pursuant to, and subject to the license
@@ -518,7 +518,7 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
        This version of this YANG module is part of RFC XXXX; see
        the RFC itself for full legal notices.";
 
-     revision 2025-12-09 {
+     revision 2025-12-16 {
        description
          "Initial revision";
        reference
@@ -557,9 +557,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                 [Page 10]
+Huang-Feng, et al.        Expires 19 June 2026                 [Page 10]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
          }
@@ -613,9 +613,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                 [Page 11]
+Huang-Feng, et al.        Expires 19 June 2026                 [Page 11]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
 5.1.  URI
@@ -669,9 +669,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                 [Page 12]
+Huang-Feng, et al.        Expires 19 June 2026                 [Page 12]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
    [RFC2119]  Bradner, S., "Key words for use in RFCs to Indicate
@@ -725,9 +725,9 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                 [Page 13]
+Huang-Feng, et al.        Expires 19 June 2026                 [Page 13]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
    [RFC6242]  Wasserman, M., "Using the NETCONF Protocol over Secure
@@ -781,9 +781,9 @@ Authors' Addresses
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                 [Page 14]
+Huang-Feng, et al.        Expires 19 June 2026                 [Page 14]
 
-Internet-Draft    Groupings for UDP Clients and Servers    November 2025
+Internet-Draft    Groupings for UDP Clients and Servers    December 2025
 
 
    Pierre Francois
@@ -837,4 +837,4 @@ Internet-Draft    Groupings for UDP Clients and Servers    November 2025
 
 
 
-Huang-Feng, et al.         Expires 23 May 2026                 [Page 15]
+Huang-Feng, et al.        Expires 19 June 2026                 [Page 15]

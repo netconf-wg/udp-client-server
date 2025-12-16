@@ -36,10 +36,15 @@ module ietf-udp-client {
     (https://www.iana.org/assignments/yang-parameters).
 
     This version of this YANG module is part of RFC XXXX; see
-    the RFC itself for full legal notices.";
+    the RFC itself for full legal notices.
+    
+    The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+    NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+    'MAY', and 'OPTIONAL' in this document are to be interpreted as
+    described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+    they appear in all capitals, as shown here.";
 
-
-  revision 2025-12-09 {
+  revision 2025-12-16 {
     description
       "Initial revision";
     reference
@@ -88,7 +93,7 @@ module ietf-udp-client {
         INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
         so that the client can bind to any IPv4 or IPv6 address.
         In normal operation, the local and configured
-        remote addresses are expected to use the same address family.
+        remote addresses SHOULD be from the same address family.
         Differences between address families may occur in
         abnormal or error conditions and are therefore allowed to
         be reported.";

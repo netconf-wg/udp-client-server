@@ -75,7 +75,7 @@
       </address>
     </author>
 
-    <date day="19" month="November" year="2025"/>
+    <date day="16" month="December" year="2025"/>
 
     <abstract>
       <t>This document defines two YANG 1.1 modules with reusable
@@ -177,8 +177,8 @@ module: ietf-udp-client
             <li>The "local-address", which is enabled by the "local-binding"
               feature, may be configured as
               an IPv4 address, an IPv6 address, or a wildcard value.
-              In normal operation, the local and configured remote addresses are expected
-              to use the same address family. Differences between address families may
+              In normal operation, the local and configured remote addresses
+              SHOULD be from the same address family. Differences between address families may
               occur in abnormal or error conditions and are therefore allowed to be reported.</li>
             <li>The "local-port", which depends on the "local-binding"
               feature, is not mandatory. Its default
@@ -208,7 +208,7 @@ module: ietf-udp-client
       <section anchor="udp-client-ym" title="YANG Module">
         <t>This module imports types defined in <xref target="I-D.ietf-netmod-rfc6991-bis"/>.</t>
 
-        <sourcecode name="ietf-udp-client@2025-12-09.yang" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-client@2025-12-16.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-client {
   yang-version 1.1;
   namespace
@@ -247,10 +247,15 @@ module ietf-udp-client {
     (https://www.iana.org/assignments/yang-parameters).
 
     This version of this YANG module is part of RFC XXXX; see
-    the RFC itself for full legal notices.";
+    the RFC itself for full legal notices.
+    
+    The key words 'MUST', 'MUST NOT', 'REQUIRED', 'SHALL', 'SHALL
+    NOT', 'SHOULD', 'SHOULD NOT', 'RECOMMENDED', 'NOT RECOMMENDED',
+    'MAY', and 'OPTIONAL' in this document are to be interpreted as
+    described in BCP 14 (RFC 2119) (RFC 8174) when, and only when,
+    they appear in all capitals, as shown here.";
 
-
-  revision 2025-12-09 {
+  revision 2025-12-16 {
     description
       "Initial revision";
     reference
@@ -299,7 +304,7 @@ module ietf-udp-client {
         INADDR6_ANY ('0:0:0:0:0:0:0:0' a.k.a. '::') may be used
         so that the client can bind to any IPv4 or IPv6 address.
         In normal operation, the local and configured
-        remote addresses are expected to use the same address family.
+        remote addresses SHOULD be from the same address family.
         Differences between address families may occur in
         abnormal or error conditions and are therefore allowed to
         be reported.";
@@ -407,7 +412,7 @@ module: ietf-udp-server
       <section anchor="udp-server-ym" title="YANG Module">
         <t>The "ietf-udp-server" imports types defined in <xref target="I-D.ietf-netmod-rfc6991-bis"/>.</t>
 
-        <sourcecode name="ietf-udp-server@2025-12-09.yang" type="yang" markers="true"><![CDATA[
+        <sourcecode name="ietf-udp-server@2025-12-16.yang" type="yang" markers="true"><![CDATA[
 module ietf-udp-server {
   yang-version 1.1;
   namespace "urn:ietf:params:xml:ns:yang:ietf-udp-server";
@@ -448,7 +453,7 @@ module ietf-udp-server {
     This version of this YANG module is part of RFC XXXX; see
     the RFC itself for full legal notices.";
 
-  revision 2025-12-09 {
+  revision 2025-12-16 {
     description
       "Initial revision";
     reference
